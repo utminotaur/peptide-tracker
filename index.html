@@ -1318,6 +1318,12 @@
     <div class="panel-header">
       <h2>Common Protocols</h2>
     </div>
+    <div class="use-pill-row" id="protocol-filter-row">
+      <button type="button" class="use-pill active" data-pkind="all">All <span class="count" id="pf-count-all"></span></button>
+      <button type="button" class="use-pill" data-pkind="supplement">Supplements Only <span class="count" id="pf-count-supplement"></span></button>
+      <button type="button" class="use-pill" data-pkind="peptide">Peptides Only <span class="count" id="pf-count-peptide"></span></button>
+      <button type="button" class="use-pill" data-pkind="combined">Combined <span class="count" id="pf-count-combined"></span></button>
+    </div>
     <div id="protocols-list"></div>
   </section>
 
@@ -2778,7 +2784,11 @@ const LIBRARY = [
 // PROTOCOLS
 // ============================================================
 const PROTOCOLS = [
+  // ====================================================================
+  // SUPPLEMENT-ONLY PROTOCOLS
+  // ====================================================================
   {
+    kind: 'supplement',
     name: 'Foundational Daily Stack',
     goal: 'General health and longevity baseline',
     items: [
@@ -2791,6 +2801,7 @@ const PROTOCOLS = [
     notes: 'A conservative, well-evidenced foundation. Add specific compounds for specific goals only after this is consistent. Test 25(OH)D after 8–12 weeks of D3.',
   },
   {
+    kind: 'supplement',
     name: 'Sleep Stack',
     goal: 'Improve sleep onset and quality',
     items: [
@@ -2802,6 +2813,7 @@ const PROTOCOLS = [
     notes: 'Avoid high-dose melatonin (≥3 mg) chronically — try 0.3–1 mg if needed. Address light exposure and caffeine timing first.',
   },
   {
+    kind: 'supplement',
     name: 'Stress / Cortisol Modulation',
     goal: 'Adaptogenic support for chronic stress',
     items: [
@@ -2813,39 +2825,7 @@ const PROTOCOLS = [
     notes: 'Cycle ashwagandha 8 weeks on / 2 weeks off. Avoid in autoimmune thyroid disease without provider input.',
   },
   {
-    name: 'Joint & Tendon Healing (Peptide)',
-    goal: 'Soft tissue injury recovery — research framework',
-    items: [
-      { name: 'BPC-157', dose: '250 mcg SC, 2x daily, 4–6 weeks' },
-      { name: 'TB-500', dose: '2.5 mg SC, 2x weekly during loading (4 wks)' },
-      { name: 'Collagen peptides', dose: '15 g + Vitamin C, 30–60 min pre-rehab' },
-      { name: 'Omega-3', dose: '2–3 g daily' },
-    ],
-    notes: 'Off-label / research chemical territory in most jurisdictions. Quality of source materials is critical. Pause before surgery. This is a framework documented in research, not medical advice.',
-  },
-  {
-    name: 'GH Optimization (Peptide)',
-    goal: 'Support natural growth hormone pulse — research framework',
-    items: [
-      { name: 'CJC-1295 (no DAC)', dose: '100 mcg SC, 1–2x daily' },
-      { name: 'Ipamorelin', dose: '100–200 mcg SC, with CJC' },
-      { name: 'Schedule', dose: 'Pre-bed on empty stomach; optionally AM and post-workout' },
-    ],
-    notes: 'Research-territory protocol. Avoid in active cancer or pregnancy. Cycle 3–6 months on, 1–2 months off. Monitor IGF-1 if possible. Side effects: tingling, hunger, water retention.',
-  },
-  {
-    name: 'GLP-1 Weight Management',
-    goal: 'Medical weight loss with muscle preservation',
-    items: [
-      { name: 'Semaglutide', dose: 'Titrate per prescriber: 0.25 → 2.4 mg weekly' },
-      { name: 'Protein target', dose: '1.6–2.2 g/kg bodyweight daily' },
-      { name: 'Resistance training', dose: '2–3x/week minimum' },
-      { name: 'Creatine', dose: '5 g daily' },
-      { name: 'Electrolytes + fiber', dose: 'Daily, especially during titration' },
-    ],
-    notes: 'Prescription only — must be under medical supervision. Muscle loss is a major risk without protein and resistance training. Stay hydrated; manage GI side effects with slow titration.',
-  },
-  {
+    kind: 'supplement',
     name: 'Cognitive / Focus',
     goal: 'Daytime mental performance',
     items: [
@@ -2857,6 +2837,7 @@ const PROTOCOLS = [
     notes: 'Sleep is the foundation of cognition. No nootropic compensates for poor sleep. Cycle stimulants.',
   },
   {
+    kind: 'supplement',
     name: 'Metabolic Health',
     goal: 'Insulin sensitivity and metabolic flexibility',
     items: [
@@ -2867,6 +2848,404 @@ const PROTOCOLS = [
       { name: 'Chromium picolinate', dose: '200 mcg/day' },
     ],
     notes: 'Pair with strength training, walking after meals, and sufficient protein/fiber. Monitor fasting glucose and HbA1c. Berberine has many drug interactions — consult provider.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Cardiovascular Health',
+    goal: 'Support heart and arterial health',
+    items: [
+      { name: 'Omega-3 (high EPA)', dose: '2–4 g combined EPA+DHA daily, with meal' },
+      { name: 'CoQ10 (Ubiquinol)', dose: '100–200 mg with fatty meal' },
+      { name: 'Magnesium Glycinate or Taurate', dose: '400 mg daily' },
+      { name: 'Vitamin K2 (MK-7)', dose: '180 mcg daily, with fat' },
+      { name: 'Taurine', dose: '2 g daily' },
+    ],
+    notes: 'Strongest evidence is for omega-3 and CoQ10 (especially if on a statin, which depletes CoQ10). K2 directs calcium away from arteries to bones. Monitor blood pressure. Consult prescriber if on anticoagulants.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Liver Support',
+    goal: 'Hepatic protection and detoxification',
+    items: [
+      { name: 'NAC (N-Acetylcysteine)', dose: '600 mg, 2x daily' },
+      { name: 'Milk Thistle (silymarin)', dose: '150 mg standardized extract, 2x daily' },
+      { name: 'Alpha-Lipoic Acid', dose: '300–600 mg daily, on empty stomach' },
+      { name: 'Glycine', dose: '3 g daily (glutathione precursor)' },
+      { name: 'TUDCA', dose: '250–500 mg daily (bile flow / hepatic support)' },
+    ],
+    notes: 'Useful during periods of liver stress (alcohol, medications, peptide cycles, heavy training). Avoid mixing NAC with nitroglycerin. Hold before surgery.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Immune Boost (Acute)',
+    goal: 'Short-term immune support during illness or exposure',
+    items: [
+      { name: 'Zinc (Picolinate)', dose: '25–50 mg/day for ≤5 days, then taper' },
+      { name: 'Vitamin C', dose: '1–2 g, divided through day' },
+      { name: 'Vitamin D3', dose: '5,000–10,000 IU/day short-term' },
+      { name: 'Quercetin', dose: '500 mg, 2x daily (with zinc)' },
+      { name: 'NAC', dose: '600 mg, 2x daily' },
+    ],
+    notes: 'Use only during acute exposure / illness. High-dose zinc long-term causes copper deficiency. If symptoms persist, consult a clinician.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Athletic Performance',
+    goal: 'Strength, power, endurance, recovery',
+    items: [
+      { name: 'Creatine Monohydrate', dose: '5 g daily, any time' },
+      { name: 'Beta-Alanine', dose: '3.2–6.4 g daily, split to reduce paresthesia' },
+      { name: 'L-Citrulline (or Citrulline Malate)', dose: '6–8 g, 30–60 min pre-workout' },
+      { name: 'Electrolytes (Na/K/Mg)', dose: 'Pre/intra-workout per sweat losses' },
+      { name: 'Whey or Casein Protein', dose: '0.4 g/kg per meal, hit 1.6–2.2 g/kg daily' },
+    ],
+    notes: 'Supplements are 5–10% of the picture; sleep, training, and total protein/calories matter more. Cycle stimulant pre-workouts.',
+  },
+  {
+    kind: 'supplement',
+    name: "Men's Hormonal Support",
+    goal: 'Support endogenous testosterone production',
+    items: [
+      { name: 'Vitamin D3', dose: '5,000 IU/day, target 25(OH)D ≥ 40 ng/mL' },
+      { name: 'Zinc Picolinate', dose: '15–30 mg daily' },
+      { name: 'Magnesium Glycinate', dose: '400 mg daily' },
+      { name: 'Boron', dose: '6–10 mg daily' },
+      { name: 'Ashwagandha (KSM-66)', dose: '600 mg daily' },
+    ],
+    notes: 'Most effective in men with deficiencies in any of D / zinc / magnesium. Won\'t override pathologic hypogonadism — get bloodwork. Cycle ashwagandha.',
+  },
+  {
+    kind: 'supplement',
+    name: "Women's Hormonal Support",
+    goal: 'General hormonal balance and PMS support',
+    items: [
+      { name: 'Magnesium Glycinate', dose: '300–400 mg daily' },
+      { name: 'Vitamin B6 (P5P)', dose: '25–50 mg daily' },
+      { name: 'Inositol (myo + d-chiro 40:1)', dose: '4 g daily (especially helpful in PCOS)' },
+      { name: 'Omega-3', dose: '2 g daily' },
+      { name: 'DIM (diindolylmethane)', dose: '100–200 mg daily (estrogen metabolism)' },
+    ],
+    notes: 'Adjust around cycle. Iron status matters — get ferritin checked if fatigued. Discuss with a provider if on hormonal contraception or HRT.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Bone Density Support',
+    goal: 'Build and maintain bone density',
+    items: [
+      { name: 'Vitamin D3', dose: '5,000 IU/day with fat' },
+      { name: 'Vitamin K2 (MK-7)', dose: '180 mcg daily' },
+      { name: 'Magnesium Glycinate', dose: '400 mg daily' },
+      { name: 'Calcium (from food preferred)', dose: '1,000–1,200 mg/day from diet + supplement gap-fill' },
+      { name: 'Boron', dose: '3–6 mg daily' },
+    ],
+    notes: 'Resistance training is the most important "supplement" for bone density. Avoid mega-dose calcium without K2 (arterial calcification risk).',
+  },
+  {
+    kind: 'supplement',
+    name: 'Skin / Hair / Nails (Supplement Stack)',
+    goal: 'Aesthetic support — collagen, keratin, micronutrients',
+    items: [
+      { name: 'Hydrolyzed Collagen Peptides', dose: '10–20 g/day with vitamin C' },
+      { name: 'Biotin', dose: '2,500–5,000 mcg/day' },
+      { name: 'Zinc Picolinate', dose: '15 mg/day' },
+      { name: 'Vitamin C', dose: '500 mg, 2x daily' },
+      { name: 'Omega-3', dose: '2 g/day' },
+    ],
+    notes: 'Collagen + vitamin C 30–60 min before resistance/skin work has the most evidence. Biotin can interfere with thyroid lab tests — pause 48h before testing.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Travel / Jet Lag',
+    goal: 'Resync circadian rhythm and reduce travel stress',
+    items: [
+      { name: 'Melatonin (low dose)', dose: '0.3–0.5 mg at destination bedtime' },
+      { name: 'Magnesium Glycinate', dose: '400 mg, evening' },
+      { name: 'Electrolytes', dose: 'Increase intake during/after flights' },
+      { name: 'Vitamin C', dose: '1 g daily during travel period' },
+      { name: 'Glycine', dose: '3 g pre-bed at destination' },
+    ],
+    notes: 'Light exposure timing (morning sun at destination) is more powerful than melatonin. Hydrate aggressively in flight.',
+  },
+  {
+    kind: 'supplement',
+    name: 'Daily Longevity Stack',
+    goal: 'NAD support and senescence-aware aging protocol',
+    items: [
+      { name: 'NMN or NR (NAD+ precursor)', dose: '500–1,000 mg/day, AM' },
+      { name: 'Resveratrol (trans)', dose: '500 mg with fat or yogurt, AM' },
+      { name: 'CoQ10 (Ubiquinol)', dose: '100–200 mg with meal' },
+      { name: 'Omega-3', dose: '2 g/day' },
+      { name: 'Vitamin D3 + K2', dose: '5,000 IU + 180 mcg daily' },
+    ],
+    notes: 'Lifestyle (sleep, fasting, training) outweighs supplements in longevity research. NMN/NR oral bioavailability is debated — some prefer injectable NAD+.',
+  },
+
+  // ====================================================================
+  // PEPTIDE-ONLY PROTOCOLS
+  // ====================================================================
+  {
+    kind: 'peptide',
+    name: 'GH Optimization (CJC-1295 + Ipamorelin)',
+    goal: 'Support natural growth hormone pulse — research framework',
+    items: [
+      { name: 'CJC-1295 (no DAC)', dose: '100 mcg SC, 1–2x daily' },
+      { name: 'Ipamorelin', dose: '100–200 mcg SC, paired with CJC' },
+      { name: 'Schedule', dose: 'Pre-bed on empty stomach; optional AM + post-workout pulse' },
+    ],
+    notes: 'Research-territory protocol. Avoid in active cancer or pregnancy. Cycle 3–6 months on, 1–2 months off. Monitor IGF-1 if possible. Side effects: tingling, hunger, water retention.',
+  },
+  {
+    kind: 'peptide',
+    name: 'Wolverine Stack (BPC-157 + TB-500)',
+    goal: 'Soft tissue and ligament/tendon healing',
+    items: [
+      { name: 'BPC-157', dose: '250 mcg SC, 2x daily near injury site if local' },
+      { name: 'TB-500', dose: '2.5 mg SC, 2x weekly during 4-week loading phase' },
+      { name: 'Cycle', dose: '4–6 weeks loading, then maintenance or break' },
+    ],
+    notes: 'Research-territory. Pause before surgery (anti-inflammatory + angiogenic effects). Local injection near injury can be more effective than distant systemic dosing. Quality of source matters.',
+  },
+  {
+    kind: 'peptide',
+    name: 'KLOW Healing Blend',
+    goal: 'Multi-system healing and skin/gut/inflammation support',
+    items: [
+      { name: 'KLOW Blend (KPV + LL-37 + GHK-Cu + BPC-157 + TB-500)', dose: '~250–500 mcg SC daily, drawn as one shot from blended vial' },
+      { name: 'Cycle', dose: '4–8 weeks on, then 2–4 week break' },
+    ],
+    notes: 'Pre-blended convenience. LL-37 can cause flu-like symptoms initially. Theoretical angiogenic concerns of BPC/TB in active cancer. Source quality is critical with multi-component blends.',
+  },
+  {
+    kind: 'peptide',
+    name: 'GLOW Skin Blend',
+    goal: 'Skin radiance, collagen, anti-aging',
+    items: [
+      { name: 'GLOW Blend (GHK-Cu + LL-37 + BPC-157 + TB-500)', dose: '~250 mcg SC daily, OR topical application' },
+      { name: 'Cycle', dose: '6–12 weeks on for visible skin changes' },
+    ],
+    notes: 'More skin-focused than KLOW (KPV omitted). Topical use of GHK-Cu is well-evidenced for skin; injection is more research-territory.',
+  },
+  {
+    kind: 'peptide',
+    name: 'Cognitive Peptide Stack',
+    goal: 'Nootropic / neuroprotective support',
+    items: [
+      { name: 'Semax', dose: '300–600 mcg intranasal, AM' },
+      { name: 'Selank', dose: '250–500 mcg intranasal, mid-day or as needed for anxiety' },
+      { name: 'Cycle', dose: '4 weeks on / 2 weeks off' },
+    ],
+    notes: 'Russian-developed peptides with limited Western trial data. Avoid late-day Semax (activating). Caution with concurrent SSRIs.',
+  },
+  {
+    kind: 'peptide',
+    name: 'Longevity Peptide Stack',
+    goal: 'Aging biology — telomere, mitochondrial, senescence',
+    items: [
+      { name: 'Epitalon (or N-Acetyl Epitalon Amidate)', dose: '5–10 mg SC daily for 10–20 days, 1–2x yearly' },
+      { name: 'MOTS-c', dose: '5–10 mg SC, 2–3x weekly, 4–8 week cycles' },
+      { name: 'Pinealon (optional)', dose: '5–10 mg SC daily during Epitalon cycle' },
+    ],
+    notes: 'All research-territory. Theoretical concern of telomerase activation in cancer-prone tissues. Limited human trial data — primarily Russian research.',
+  },
+  {
+    kind: 'peptide',
+    name: 'Immune Reset (Thymosin Alpha-1)',
+    goal: 'T-cell modulation and immune function',
+    items: [
+      { name: 'Thymosin Alpha-1', dose: '1.6 mg SC, 2x weekly' },
+      { name: 'Cycle', dose: '8–12 weeks on, then assess' },
+    ],
+    notes: 'Approved abroad for hepatitis B, used adjunctively in viral and cancer settings. Caution in autoimmune disease. Discuss with a clinician.',
+  },
+  {
+    kind: 'peptide',
+    name: 'Sexual Health (PT-141)',
+    goal: 'On-demand libido and sexual response',
+    items: [
+      { name: 'PT-141 (Bremelanotide)', dose: '1.0–1.75 mg SC, 45 min before activity' },
+      { name: 'Frequency', dose: 'On-demand only, not daily; max ~2x/week' },
+    ],
+    notes: 'FDA-approved as Vyleesi for HSDD in women. Side effects: nausea (very common), flushing, transient blood pressure rise. Avoid in uncontrolled hypertension and cardiovascular disease.',
+  },
+  {
+    kind: 'peptide',
+    name: 'GLP-1 Weight Management (Peptide Layer)',
+    goal: 'Pharmacologic appetite/glycemic control',
+    items: [
+      { name: 'Semaglutide', dose: 'Titrate per prescriber: 0.25 → 2.4 mg SC weekly' },
+      { name: '— OR — Tirzepatide', dose: 'Titrate per prescriber: 2.5 → 15 mg SC weekly' },
+    ],
+    notes: 'Prescription only. Add the "GLP-1 Muscle Preservation" combined stack for nutrition/training/electrolyte support — peptide alone is suboptimal.',
+  },
+
+  // ====================================================================
+  // COMBINED PROTOCOLS (peptide + supplement support)
+  // ====================================================================
+  {
+    kind: 'combined',
+    name: 'GHK-Cu + Zinc Balance',
+    goal: 'GHK-Cu hair / skin protocol with mineral balance support',
+    items: [
+      { name: 'GHK-Cu', dose: 'Topical 0.05–2% serum daily, OR SC 1–2 mg, 2–3x weekly' },
+      { name: 'Zinc Picolinate', dose: '15–30 mg daily — to balance the extra copper from GHK-Cu' },
+      { name: 'Vitamin C', dose: '500 mg daily (collagen synthesis cofactor)' },
+      { name: 'Hydrolyzed Collagen', dose: '15 g/day with vitamin C' },
+    ],
+    notes: 'GHK-Cu introduces copper systemically; zinc supplementation maintains a healthy Zn:Cu ratio (target ~8–15:1). Long-term unbalanced copper can deplete zinc and cause mood/anxiety effects. Skip oral copper supplements while running GHK-Cu.',
+  },
+  {
+    kind: 'combined',
+    name: 'Joint & Tendon Healing (Peptide + Support)',
+    goal: 'Soft tissue injury recovery',
+    items: [
+      { name: 'BPC-157', dose: '250 mcg SC, 2x daily, 4–6 weeks' },
+      { name: 'TB-500', dose: '2.5 mg SC, 2x weekly during loading' },
+      { name: 'Hydrolyzed Collagen + Vitamin C', dose: '15 g + 500 mg, 30–60 min pre-rehab' },
+      { name: 'Omega-3', dose: '2–3 g daily' },
+      { name: 'Magnesium Glycinate', dose: '400 mg evening' },
+    ],
+    notes: 'Pause peptides before surgery. Vitamin C with collagen pre-loading the rehab session has the strongest evidence for tendon. Sleep 7–9 hr — most repair happens at night.',
+  },
+  {
+    kind: 'combined',
+    name: 'GH Optimization + Recovery Support',
+    goal: 'GH peptide protocol with sleep / recovery synergy',
+    items: [
+      { name: 'CJC-1295 (no DAC) + Ipamorelin', dose: '100 mcg + 100–200 mcg SC pre-bed' },
+      { name: 'Magnesium Glycinate', dose: '400 mg, 60 min before bed' },
+      { name: 'Glycine', dose: '3 g pre-bed (also boosts GH pulse)' },
+      { name: 'Vitamin D3', dose: '5,000 IU AM with fat' },
+      { name: 'Zinc Picolinate', dose: '15 mg/day (mild GH/IGF-1 support)' },
+      { name: 'B-Complex', dose: '1 capsule, AM' },
+    ],
+    notes: 'GH pulse is biggest in deep sleep — sleep optimization compounds the peptide effect. Avoid food 2 hr before/30 min after peptide injection.',
+  },
+  {
+    kind: 'combined',
+    name: 'GLP-1 Muscle Preservation',
+    goal: 'Avoid muscle loss during semaglutide / tirzepatide weight loss',
+    items: [
+      { name: 'Semaglutide or Tirzepatide', dose: 'Per prescriber, weekly' },
+      { name: 'Protein target', dose: '1.6–2.2 g/kg bodyweight daily' },
+      { name: 'Resistance training', dose: '2–3x/week minimum' },
+      { name: 'Creatine Monohydrate', dose: '5 g daily' },
+      { name: 'Electrolytes (Na/K/Mg)', dose: 'Daily, especially during titration' },
+      { name: 'Fiber', dose: '25–35 g/day to manage GI side effects + satiety' },
+      { name: 'B-Complex', dose: '1 capsule daily' },
+    ],
+    notes: 'Muscle loss is the main risk on GLP-1 agonists. Hit the protein and lift; everything else is secondary. Slow titration reduces nausea.',
+  },
+  {
+    kind: 'combined',
+    name: 'BPC-157 Gut Healing Stack',
+    goal: 'Gut barrier and inflammation support',
+    items: [
+      { name: 'BPC-157', dose: '250 mcg SC or oral capsule, 2x daily — oral preferred for gut focus' },
+      { name: 'L-Glutamine', dose: '5 g, 2x daily on empty stomach' },
+      { name: 'Zinc Carnosine', dose: '75 mg, 2x daily' },
+      { name: 'Curcumin (Meriva or BCM-95)', dose: '500 mg with fat, 2x daily' },
+      { name: 'Omega-3', dose: '2–3 g daily' },
+    ],
+    notes: 'BPC-157 was originally identified in gastric juice. Oral capsules are valid for gut applications. Cycle 4–6 weeks. Identify and remove dietary triggers in parallel.',
+  },
+  {
+    kind: 'combined',
+    name: 'Cognitive Combo (Peptide + Support)',
+    goal: 'Daytime cognition with peptide and supplement layers',
+    items: [
+      { name: 'Semax', dose: '300–600 mcg intranasal, AM' },
+      { name: 'Selank', dose: '250 mcg intranasal, midday for stress' },
+      { name: 'Caffeine + L-Theanine', dose: '100 mg + 200 mg, AM' },
+      { name: 'Omega-3 (high DHA)', dose: '2 g/day' },
+      { name: 'Magnesium L-Threonate', dose: '2 g, evening' },
+      { name: 'B-Complex (activated)', dose: '1 capsule, AM' },
+    ],
+    notes: 'Cycle peptides 4 weeks on / 2 off. Sleep first, then foundational supplements, then peptides — in that priority order.',
+  },
+  {
+    kind: 'combined',
+    name: 'Anti-Aging Combo',
+    goal: 'Multi-pathway longevity protocol',
+    items: [
+      { name: 'Epitalon', dose: '5–10 mg SC daily, 10–20 day cycles, 1–2x yearly' },
+      { name: 'MOTS-c', dose: '5–10 mg SC, 2–3x weekly, cycled' },
+      { name: 'NAD+ injectable', dose: '100–300 mg SC, 2–5x weekly (slow IM/SC)' },
+      { name: 'Resveratrol', dose: '500 mg with fat, AM' },
+      { name: 'CoQ10 (Ubiquinol)', dose: '200 mg with meal' },
+      { name: 'Omega-3', dose: '2 g/day' },
+    ],
+    notes: 'Stack runs are intense — cycle each component with breaks. NAD+ subcutaneous can sting; slow injection helps. Bloodwork yearly.',
+  },
+  {
+    kind: 'combined',
+    name: 'Skin Glow Combo',
+    goal: 'Comprehensive skin/hair beauty protocol',
+    items: [
+      { name: 'GHK-Cu', dose: 'Topical 1–2% serum AM/PM, OR SC 1–2 mg 2x weekly' },
+      { name: 'Zinc Picolinate', dose: '15 mg/day (balance with GHK-Cu copper)' },
+      { name: 'Hydrolyzed Collagen + Vitamin C', dose: '15 g + 500 mg daily' },
+      { name: 'Biotin', dose: '2,500 mcg/day' },
+      { name: 'Omega-3', dose: '2 g/day' },
+      { name: 'Vitamin D3', dose: '5,000 IU/day' },
+    ],
+    notes: 'Topical retinol + sun protection still beat any oral/injectable for skin in most cases — peptide adds, doesn\'t replace. Pause biotin 48h before lab tests.',
+  },
+  {
+    kind: 'combined',
+    name: 'Sleep Combo (DSIP + Support)',
+    goal: 'Deep sleep peptide layered on supplement foundation',
+    items: [
+      { name: 'DSIP', dose: '100–500 mcg SC pre-bed' },
+      { name: 'Magnesium Glycinate or Threonate', dose: '300–400 mg, 60 min pre-bed' },
+      { name: 'Glycine', dose: '3 g, 30 min pre-bed' },
+      { name: 'L-Theanine', dose: '200 mg, pre-bed' },
+      { name: 'Apigenin', dose: '50 mg, pre-bed (optional)' },
+    ],
+    notes: 'DSIP\'s effect is modest and variable. Build the supplement foundation first — light hygiene, caffeine cutoff, cool room. Then add peptide if needed.',
+  },
+  {
+    kind: 'combined',
+    name: 'Recovery Stack (Athletic)',
+    goal: 'Maximal recovery between hard training sessions',
+    items: [
+      { name: 'BPC-157', dose: '250 mcg SC, 1–2x daily during heavy training blocks' },
+      { name: 'TB-500', dose: '2.5 mg SC, 1x weekly' },
+      { name: 'L-Glutamine', dose: '5–10 g post-training' },
+      { name: 'Omega-3', dose: '2–3 g daily' },
+      { name: 'Magnesium Glycinate', dose: '400 mg pre-bed' },
+      { name: 'Creatine', dose: '5 g daily' },
+      { name: 'Whey + slow carbs post-workout', dose: '~30–40 g protein + carbs within 60 min' },
+    ],
+    notes: 'Sleep, calories, and protein timing dominate recovery. Peptides are accelerators, not replacements. WADA-banned compounds — not for tested athletes.',
+  },
+  {
+    kind: 'combined',
+    name: 'Metabolic Combo',
+    goal: 'Aggressive metabolic intervention with synergistic support',
+    items: [
+      { name: 'Tirzepatide', dose: 'Per prescriber, weekly' },
+      { name: 'Berberine', dose: '500 mg, 2x/day with meals' },
+      { name: 'Inositol (myo + d-chiro 40:1)', dose: '4 g/day' },
+      { name: 'Magnesium Glycinate', dose: '400 mg/day' },
+      { name: 'Omega-3', dose: '2 g/day' },
+      { name: 'Creatine', dose: '5 g/day' },
+      { name: 'Protein target', dose: '1.6–2.2 g/kg/day' },
+    ],
+    notes: 'Stacking berberine with GLP-1 agonists is potent — monitor glucose for hypoglycemia. Discuss combinations with prescriber. Many drug interactions with berberine via CYP enzymes.',
+  },
+  {
+    kind: 'combined',
+    name: 'TRT / Hormonal Optimization Support',
+    goal: 'Adjuncts to support testosterone therapy',
+    items: [
+      { name: 'Testosterone (per prescriber)', dose: 'As prescribed, weekly to twice-weekly IM/SC' },
+      { name: 'HCG or Gonadorelin', dose: 'Per prescriber, to maintain testicular function' },
+      { name: 'Zinc Picolinate', dose: '15 mg/day' },
+      { name: 'Vitamin D3', dose: '5,000 IU/day' },
+      { name: 'Magnesium Glycinate', dose: '400 mg/day' },
+      { name: 'Omega-3', dose: '2 g/day' },
+    ],
+    notes: 'Prescription protocol — must be under medical supervision. Bloodwork (testosterone, estradiol, hematocrit, PSA) every 3–6 months. AI (anastrozole) only if E2 actually elevated.',
   },
 ];
 
@@ -2954,6 +3333,7 @@ const state = {
   editingVialId: null,
   calcMode: 'vial', // 'vial' or 'manual'
   libUseFilter: 'all', // library use-case filter
+  protocolFilter: 'all', // protocols filter
 };
 
 function loadState() {
@@ -3951,12 +4331,38 @@ function changeMonth(delta) {
 function renderProtocols() {
   const list = document.getElementById('protocols-list');
   list.innerHTML = '';
-  PROTOCOLS.forEach(p => {
+  const activeKind = state.protocolFilter || 'all';
+
+  // Update filter counts and active state
+  const counts = { all: PROTOCOLS.length, supplement: 0, peptide: 0, combined: 0 };
+  PROTOCOLS.forEach(p => { counts[p.kind || 'combined'] = (counts[p.kind || 'combined'] || 0) + 1; });
+  ['all','supplement','peptide','combined'].forEach(k => {
+    const el = document.getElementById('pf-count-' + k);
+    if (el) el.textContent = counts[k] || 0;
+  });
+  document.querySelectorAll('#protocol-filter-row .use-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.pkind === activeKind);
+  });
+
+  const filtered = PROTOCOLS.filter(p => activeKind === 'all' || (p.kind || 'combined') === activeKind);
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state"><p>No protocols match this filter.</p></div>';
+    return;
+  }
+  filtered.forEach(p => {
+    const kind = p.kind || 'combined';
+    const kindLabel = kind === 'supplement' ? 'Supplements' : kind === 'peptide' ? 'Peptides' : 'Combined';
+    const kindColor = kind === 'supplement' ? 'var(--supplement)' : kind === 'peptide' ? 'var(--peptide)' : 'var(--accent)';
     const card = document.createElement('div');
     card.className = 'protocol-card';
     card.innerHTML = `
-      <h3>${escapeHtml(p.name)}</h3>
-      <div class="protocol-goal">${escapeHtml(p.goal)}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:0;">
+          <h3>${escapeHtml(p.name)}</h3>
+          <div class="protocol-goal">${escapeHtml(p.goal)}</div>
+        </div>
+        <span class="badge" style="background:transparent;border:1px solid ${kindColor};color:${kindColor};font-size:0.7rem;padding:0.2rem 0.55rem;border-radius:4px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;flex-shrink:0;">${kindLabel}</span>
+      </div>
       <div class="protocol-stack">
         ${p.items.map(i => `
           <div class="protocol-item">
@@ -3970,6 +4376,14 @@ function renderProtocols() {
     list.appendChild(card);
   });
 }
+
+// Wire up the protocol filter pills
+document.querySelectorAll('#protocol-filter-row .use-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    state.protocolFilter = btn.dataset.pkind;
+    renderProtocols();
+  });
+});
 
 // ============================================================
 // DASHBOARD
