@@ -539,6 +539,79 @@
     margin-top: 0.75rem;
   }
 
+  /* PROTOCOL LINK BUTTON */
+  .protocol-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.85rem;
+    background: linear-gradient(135deg, var(--peptide-dim), var(--accent-dim));
+    border: 1px solid var(--peptide);
+    color: var(--text);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .protocol-link-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(167, 139, 250, 0.2);
+    background: linear-gradient(135deg, var(--peptide), var(--accent));
+    color: #1a0a3a;
+  }
+  .protocol-link-btn .arrow { transition: transform 0.15s; }
+  .protocol-link-btn:hover .arrow { transform: translateX(2px); }
+  /* GLP guide content */
+  .glp-section { margin-bottom: 1.25rem; }
+  .glp-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--peptide);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  .glp-section h5 {
+    font-size: 1rem;
+    color: var(--text);
+    margin-top: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+  .glp-section p, .glp-section li { font-size: 0.9rem; line-height: 1.6; }
+  .glp-section ul { padding-left: 1.25rem; margin: 0.4rem 0; }
+  .glp-titration {
+    background: var(--bg-elevated);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin: 0.5rem 0;
+    border-left: 3px solid var(--peptide);
+  }
+  .glp-titration table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 0.4rem; }
+  .glp-titration th, .glp-titration td { padding: 0.35rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); }
+  .glp-titration th { color: var(--text-dim); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .glp-warn {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: var(--warning);
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+  }
+  .glp-disclaimer {
+    background: rgba(248, 113, 113, 0.08);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: var(--text);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+  .glp-disclaimer strong { color: var(--danger); }
   /* DASHBOARD */
   .stats-grid {
     display: grid;
@@ -1317,6 +1390,7 @@
   <section class="panel" id="panel-protocols">
     <div class="panel-header">
       <h2>Common Protocols</h2>
+      <button type="button" class="btn-secondary" onclick="openGlpDosingGuide()" style="border-color:var(--peptide);color:var(--peptide);">📋 GLP-1 Dosing Guide</button>
     </div>
     <div class="use-pill-row" id="protocol-filter-row">
       <button type="button" class="use-pill active" data-pkind="all">All <span class="count" id="pf-count-all"></span></button>
@@ -1444,6 +1518,167 @@
 <!-- LIBRARY DETAIL MODAL -->
 <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeModal('modal-detail')">
   <div class="modal" id="modal-detail-content"></div>
+</div>
+
+<!-- GLP-1 DOSING GUIDE MODAL -->
+<div class="modal-overlay" id="modal-glp" onclick="if(event.target===this)closeModal('modal-glp')">
+  <div class="modal" style="max-width:780px;">
+    <div class="modal-header">
+      <div>
+        <h2>GLP-1 Dosing Guide</h2>
+        <div class="modal-cat">Semaglutide · Tirzepatide · Retatrutide</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-glp')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="glp-disclaimer">
+        <strong>Educational reference only.</strong> This is not medical advice. Semaglutide and tirzepatide are prescription medications; retatrutide is investigational and not FDA-approved. Dosing decisions, titration timing, and use of any GLP-1 class drug must be made with a qualified prescriber.
+      </div>
+
+      <div class="glp-section">
+        <h4>Overview</h4>
+        <p>GLP-1 receptor agonists slow gastric emptying, increase satiety, and improve glycemic control. The three commonly discussed options have meaningful differences in receptor activity, half-life, weight-loss potency, and regulatory status:</p>
+        <ul>
+          <li><strong>Semaglutide</strong> — pure GLP-1 agonist. FDA-approved (Ozempic for T2D, Wegovy for weight management). ~7-day half-life.</li>
+          <li><strong>Tirzepatide</strong> — dual GLP-1 / GIP agonist. FDA-approved (Mounjaro for T2D, Zepbound for weight). ~5-day half-life. Greater weight loss than semaglutide in head-to-head trials (SURMOUNT vs STEP).</li>
+          <li><strong>Retatrutide</strong> — triple GLP-1 / GIP / glucagon agonist. <em>Investigational, Phase 3.</em> Greatest trial weight loss to date (~24% at 48 weeks). Not FDA-approved.</li>
+        </ul>
+      </div>
+
+      <div class="glp-section">
+        <h4>General Titration Principles</h4>
+        <ul>
+          <li>Always start at the lowest dose and titrate upward only when the prior dose is well tolerated for at least 4 weeks.</li>
+          <li>Slower titration = fewer GI side effects. There is no benefit to rushing.</li>
+          <li>If a step causes intolerable nausea or other GI symptoms, hold or step back rather than push through.</li>
+          <li>The "lowest effective dose" is often what works best long-term — many people maintain on intermediate doses rather than the maximum.</li>
+          <li>Inject subcutaneously, same day each week, rotating sites (abdomen, thigh, upper arm).</li>
+        </ul>
+      </div>
+
+      <div class="glp-section">
+        <h5>Semaglutide — typical weight-management titration</h5>
+        <div class="glp-titration">
+          <table>
+            <thead><tr><th>Weeks</th><th>Dose</th></tr></thead>
+            <tbody>
+              <tr><td>1–4</td><td>0.25 mg / week</td></tr>
+              <tr><td>5–8</td><td>0.5 mg / week</td></tr>
+              <tr><td>9–12</td><td>1.0 mg / week</td></tr>
+              <tr><td>13–16</td><td>1.7 mg / week</td></tr>
+              <tr><td>17 +</td><td>2.4 mg / week (Wegovy max)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-dim);">T2D dosing tops out lower (typically 1.0–2.0 mg). Hold at any dose tolerated and effective for goals.</p>
+      </div>
+
+      <div class="glp-section">
+        <h5>Tirzepatide — typical weight-management titration</h5>
+        <div class="glp-titration">
+          <table>
+            <thead><tr><th>Weeks</th><th>Dose</th></tr></thead>
+            <tbody>
+              <tr><td>1–4</td><td>2.5 mg / week</td></tr>
+              <tr><td>5–8</td><td>5 mg / week</td></tr>
+              <tr><td>9–12</td><td>7.5 mg / week</td></tr>
+              <tr><td>13–16</td><td>10 mg / week</td></tr>
+              <tr><td>17–20</td><td>12.5 mg / week</td></tr>
+              <tr><td>21 +</td><td>15 mg / week (Zepbound max)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-dim);">Many people see strong results in the 5–10 mg range and maintain there rather than escalating.</p>
+      </div>
+
+      <div class="glp-section">
+        <h5>Retatrutide — investigational dosing (trial-based)</h5>
+        <div class="glp-titration">
+          <table>
+            <thead><tr><th>Weeks</th><th>Dose</th></tr></thead>
+            <tbody>
+              <tr><td>1–4</td><td>0.25–2 mg / week</td></tr>
+              <tr><td>5–8</td><td>2–4 mg / week</td></tr>
+              <tr><td>9–12</td><td>4–8 mg / week</td></tr>
+              <tr><td>13 +</td><td>8–12 mg / week (trial max)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="glp-warn">⚠ Not FDA-approved. Source quality is highly variable in unregulated channels. GI side effects appear to track with weight-loss potency — expect more nausea than tirzepatide at comparable potency steps.</div>
+      </div>
+
+      <div class="glp-section">
+        <h4>Side Effect Management</h4>
+        <ul>
+          <li><strong>Nausea</strong> — most common, especially during titration. Smaller, lower-fat meals; eat slowly; protein first.</li>
+          <li><strong>Constipation or diarrhea</strong> — fiber 25–35 g/day, hydration, magnesium glycinate.</li>
+          <li><strong>Reflux / belching</strong> — avoid lying down within 2 hr of eating.</li>
+          <li><strong>Fatigue</strong> — usually reflects underfeeding; ensure adequate protein and electrolytes.</li>
+          <li><strong>"Sulfur burps"</strong> — common with tirzepatide. Reducing fat/dairy or adding peppermint oil capsules helps for many.</li>
+          <li>Anti-nausea (ondansetron) PRN per prescriber for breakthrough nausea.</li>
+        </ul>
+      </div>
+
+      <div class="glp-section">
+        <h4>Critical Adjuncts (build muscle preservation around the drug)</h4>
+        <ul>
+          <li><strong>Protein:</strong> 1.6–2.2 g/kg bodyweight daily — non-negotiable for keeping muscle while losing fat.</li>
+          <li><strong>Resistance training:</strong> 2–3 sessions/week, hitting major movements. The single most important variable for body composition on GLP-1.</li>
+          <li><strong>Creatine monohydrate:</strong> 5 g daily.</li>
+          <li><strong>Electrolytes:</strong> sodium, potassium, magnesium daily — appetite suppression often leads to under-consumption.</li>
+          <li><strong>Fiber:</strong> 25–35 g/day to manage GI side effects and satiety.</li>
+          <li><strong>B-complex:</strong> activated form daily — eating less means fewer dietary B vitamins.</li>
+          <li><strong>Vitamin D3 + K2:</strong> 5,000 IU + 180 mcg/day with fat.</li>
+        </ul>
+      </div>
+
+      <div class="glp-section">
+        <h4>Cautions and Contraindications</h4>
+        <ul>
+          <li>Pancreatitis risk — discontinue and seek care for severe abdominal pain.</li>
+          <li>Avoid in personal/family history of medullary thyroid carcinoma or MEN2.</li>
+          <li>Gallbladder issues can occur, particularly at higher doses or rapid weight loss.</li>
+          <li>Pregnancy and breastfeeding — contraindicated; stop ≥2 months before planned conception.</li>
+          <li>Hypoglycemia risk increases when stacked with insulin or sulfonylureas.</li>
+          <li>Often held 1+ week before surgery (anesthesia + delayed gastric emptying = aspiration risk).</li>
+          <li>Stopping abruptly can cause appetite/weight rebound — discuss tapering with prescriber.</li>
+        </ul>
+      </div>
+
+      <div class="glp-section">
+        <h4>When to Hold or Reduce</h4>
+        <ul>
+          <li>Severe persistent nausea or vomiting interfering with hydration.</li>
+          <li>Signs of pancreatitis (severe upper abdominal pain radiating to back).</li>
+          <li>Significant dehydration.</li>
+          <li>Hospitalization or major illness.</li>
+          <li>Upcoming surgery (per anesthesiologist guidance).</li>
+        </ul>
+      </div>
+
+      <div class="glp-section">
+        <h4>Switching Between Compounds</h4>
+        <p>Going from one GLP-1 class drug to another is common. General approach: stop the current drug, wait one full half-life cycle (5–7 days for tirzepatide, 7–10 days for semaglutide), then start the new one at its lowest titration step — even if you were on a higher equivalent of the prior drug. Re-titrate as if naïve.</p>
+      </div>
+
+      <div class="glp-section">
+        <h4>Comparing the Three (rough trial averages)</h4>
+        <ul>
+          <li><strong>Semaglutide 2.4 mg:</strong> ~15% weight loss at 68 weeks (STEP-1).</li>
+          <li><strong>Tirzepatide 15 mg:</strong> ~21% weight loss at 72 weeks (SURMOUNT-1).</li>
+          <li><strong>Retatrutide 12 mg:</strong> ~24% weight loss at 48 weeks (Phase 2 obesity trial).</li>
+        </ul>
+        <p style="font-size:0.8rem;color:var(--text-dim);">Real-world results vary widely with diet, training, sleep, and adherence.</p>
+      </div>
+
+      <div class="glp-disclaimer">
+        Always work with a qualified clinician — especially for retatrutide, which lacks formal approval and quality controls. Bloodwork (lipid panel, A1c, basic metabolic panel, lipase if symptomatic) every 3–6 months is reasonable on long-term use.
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="closeModal('modal-glp')">Close</button>
+    </div>
+  </div>
 </div>
 
 <!-- VIAL ADD/EDIT MODAL -->
@@ -3070,12 +3305,14 @@ const PROTOCOLS = [
   {
     kind: 'peptide',
     name: 'GLP-1 Weight Management (Peptide Layer)',
-    goal: 'Pharmacologic appetite/glycemic control',
+    goal: 'Pharmacologic appetite / glycemic control',
     items: [
-      { name: 'Semaglutide', dose: 'Titrate per prescriber: 0.25 → 2.4 mg SC weekly' },
-      { name: '— OR — Tirzepatide', dose: 'Titrate per prescriber: 2.5 → 15 mg SC weekly' },
+      { name: 'GLP-1 / GIP / Glucagon agonist', dose: 'Semaglutide, Tirzepatide, or Retatrutide — choose with prescriber' },
+      { name: 'Schedule', dose: 'Once weekly subcutaneous, same day each week' },
+      { name: 'Titration', dose: 'Always start low; step up only after 4 weeks of tolerance' },
     ],
-    notes: 'Prescription only. Add the "GLP-1 Muscle Preservation" combined stack for nutrition/training/electrolyte support — peptide alone is suboptimal.',
+    notes: 'Prescription / investigational territory. Pair with the "GLP-1 Muscle Preservation" combined stack for nutrition, training, and electrolyte support — the peptide alone is suboptimal. See the GLP-1 Dosing Guide for titration tables.',
+    glpLink: true,
   },
 
   // ====================================================================
@@ -3123,9 +3360,9 @@ const PROTOCOLS = [
   {
     kind: 'combined',
     name: 'GLP-1 Muscle Preservation',
-    goal: 'Avoid muscle loss during semaglutide / tirzepatide weight loss',
+    goal: 'Avoid muscle loss during GLP-1 agonist weight loss',
     items: [
-      { name: 'Semaglutide or Tirzepatide', dose: 'Per prescriber, weekly' },
+      { name: 'GLP-1 / GIP / Glucagon agonist', dose: 'Semaglutide, Tirzepatide, or Retatrutide — per prescriber' },
       { name: 'Protein target', dose: '1.6–2.2 g/kg bodyweight daily' },
       { name: 'Resistance training', dose: '2–3x/week minimum' },
       { name: 'Creatine Monohydrate', dose: '5 g daily' },
@@ -3133,7 +3370,8 @@ const PROTOCOLS = [
       { name: 'Fiber', dose: '25–35 g/day to manage GI side effects + satiety' },
       { name: 'B-Complex', dose: '1 capsule daily' },
     ],
-    notes: 'Muscle loss is the main risk on GLP-1 agonists. Hit the protein and lift; everything else is secondary. Slow titration reduces nausea.',
+    notes: 'Muscle loss is the main risk on GLP-1 agonists. Hit the protein and lift; everything else is secondary. Slow titration reduces nausea. See the GLP-1 Dosing Guide for titration specifics on each compound.',
+    glpLink: true,
   },
   {
     kind: 'combined',
@@ -3223,7 +3461,7 @@ const PROTOCOLS = [
     name: 'Metabolic Combo',
     goal: 'Aggressive metabolic intervention with synergistic support',
     items: [
-      { name: 'Tirzepatide', dose: 'Per prescriber, weekly' },
+      { name: 'GLP-1 / GIP / Glucagon agonist', dose: 'Semaglutide, Tirzepatide, or Retatrutide — per prescriber' },
       { name: 'Berberine', dose: '500 mg, 2x/day with meals' },
       { name: 'Inositol (myo + d-chiro 40:1)', dose: '4 g/day' },
       { name: 'Magnesium Glycinate', dose: '400 mg/day' },
@@ -3231,7 +3469,8 @@ const PROTOCOLS = [
       { name: 'Creatine', dose: '5 g/day' },
       { name: 'Protein target', dose: '1.6–2.2 g/kg/day' },
     ],
-    notes: 'Stacking berberine with GLP-1 agonists is potent — monitor glucose for hypoglycemia. Discuss combinations with prescriber. Many drug interactions with berberine via CYP enzymes.',
+    notes: 'Stacking berberine with GLP-1 agonists is potent — monitor glucose for hypoglycemia. Discuss combinations with prescriber. Many drug interactions with berberine via CYP enzymes. See the GLP-1 Dosing Guide for compound-specific titration.',
+    glpLink: true,
   },
   {
     kind: 'combined',
@@ -4372,9 +4611,15 @@ function renderProtocols() {
         `).join('')}
       </div>
       <div class="protocol-notes">${escapeHtml(p.notes)}</div>
+      ${p.glpLink ? `<button type="button" class="protocol-link-btn" onclick="openGlpDosingGuide()">View GLP-1 Dosing Guide <span class="arrow">→</span></button>` : ''}
     `;
     list.appendChild(card);
   });
+}
+
+function openGlpDosingGuide() {
+  const m = document.getElementById('modal-glp');
+  if (m) m.classList.add('active');
 }
 
 // Wire up the protocol filter pills
