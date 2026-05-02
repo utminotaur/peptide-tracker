@@ -1,0 +1,19 @@
+{
+  "name": "Peptide Tracker",
+  "short_name": "Peptide Tracker",
+  "description": "Track supplements, peptides, vials, schedules, and reconstitution doses.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#0f1419",
+  "background_color": "#0f1419",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
