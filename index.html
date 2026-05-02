@@ -4499,14 +4499,23 @@ const PROTOCOLS = [
   },
   {
     kind: 'peptide',
-    name: 'Mitochondrial Peptide Stack (SS-31 + MOTS-c + NAD+)',
-    goal: 'Cellular energy, mitochondrial biogenesis, and metabolic resilience',
+    name: 'Mitochondrial Peptide Stack — Phased (SS-31 → NAD+ → +MOTS-c)',
+    goal: 'Sequenced 9–11 week protocol: stabilize, replenish, then stress-train mitochondria',
     items: [
-      { name: 'SS-31 (Elamipretide)', dose: '5–40 mg SC daily; cycled 4 weeks on / 2 weeks off' },
-      { name: 'MOTS-c', dose: '5–10 mg SC, 2–3x weekly during cycle' },
-      { name: 'NAD+ (injectable)', dose: '100–300 mg SC or slow IM, 2–5x weekly' },
+      { name: 'STAGE 1 — Weeks 1–3', dose: 'SS-31 (Elamipretide) titrated daily — see schedule below — protect & stabilize' },
+      { name: 'SS-31 — Week 1', dose: '2.5 mg SC daily (assess tolerance — flushing, GI, injection site)' },
+      { name: 'SS-31 — Week 2', dose: '5 mg SC daily' },
+      { name: 'SS-31 — Week 3', dose: '7.5 mg SC daily (final week — then stop)' },
+      { name: 'STAGE 2 — Weeks 4–9', dose: 'Switch to NAD+ injectable, gradual titration (see notes) — replenish coenzyme' },
+      { name: 'STAGE 3 — Weeks 6–9/11', dose: 'Add MOTS-c at week 6 (2 weeks into NAD+) — stress signal & AMPK pulse' },
+      { name: 'MOTS-c — Pulsed option', dose: '2–5 mg SC, 3x/week (e.g., M/W/F) for 4–6 weeks' },
+      { name: 'MOTS-c — Daily option', dose: '1 mg SC daily, 5 days on / 2 days off, for 4–6 weeks' },
     ],
-    notes: 'Three-pronged mitochondrial protocol: SS-31 binds cardiolipin and protects inner-membrane integrity, MOTS-c activates AMPK and mimics exercise stress at the mitochondrial level, NAD+ replenishes the central redox coenzyme that declines with age. All three are research-territory — limited long-term human safety data. NAD+ subcutaneous can sting and rapid IV/IM causes flushing/anxiety; inject slowly. Pair with aerobic + resistance training, sleep, and a foundation of CoQ10 (ubiquinol), magnesium, and omega-3 for synergistic mitochondrial biogenesis. Bloodwork (CBC, CMP, lipids) is reasonable before and after a cycle.',
+    notes: 'WHY THE SEQUENCE: The order matters. Stage 1 uses SS-31 to first stabilize mitochondrial inner membranes by binding cardiolipin — this protects existing mitochondria before you push them. The titration schedule (2.5 → 5 → 7.5 mg/day) starts low to assess individual tolerance — week 1 at 2.5 mg lets you catch flushing, GI upset, headache, or injection-site reactions before stepping up; weeks 2 and 3 add 2.5 mg increments. Stop at week 3 / 7.5 mg/day; running SS-31 longer at higher doses without research-grade monitoring offers diminishing returns and unknown long-term safety. Stage 2 transitions to NAD+ to replenish the depleted redox coenzyme; titrate slowly (e.g., start 50 mg SC 2x/week → 100 mg 3x/week → up to 200–300 mg 3–5x/week by week 7–8) and inject SLOWLY to avoid flushing, chest tightness, and anxiety. Stage 3 layers MOTS-c on top from week 6 onward — by then, your mitochondria are stabilized (SS-31 effects persist) and well-fueled (NAD+ pool restored), so you can introduce a hormetic stress signal without overwhelming the system. ' +
+'\n\nDAILY (1 mg, 5 on / 2 off) VS PULSED (2–5 mg, 3x/week) — pick based on goal: ' +
+'\n• PULSED 3x/week = a sharper hormetic stress pulse. Higher peaks of AMPK activation drive stronger PGC-1α upregulation, which is the master regulator of mitochondrial biogenesis (creating new mitochondria). The 2–3 day off-cycle prevents receptor / pathway desensitization and lets the cell consolidate adaptations between pulses. This more closely mimics what intense exercise or fasting does — short stress, longer recovery. Best for users prioritizing mitochondrial biogenesis, fat oxidation gains, and exercise-mimetic effects. ' +
+'\n• DAILY 1 mg (5 on / 2 off) = a gentler, sustained signal. Lower per-dose AMPK activation but more continuous, supporting steady metabolic flexibility and insulin sensitivity rather than peak biogenesis. Less likely to cause desensitization at the lower dose. Easier on tolerability and useful for users sensitive to peptide side effects, those with already-impaired metabolic baseline (T2D, NAFLD), or those running long-duration protocols. The 2-day weekly break still prevents continuous saturation. ' +
+'\n\nGENERAL CAUTIONS: All three are research-territory peptides with limited long-term human safety data. WADA-banned. SS-31 and NAD+ should not overlap with active cancer treatment without oncology input. Pair the entire 10–12 week stack with aerobic + resistance training, sleep optimization, and a foundation of CoQ10 (ubiquinol 100–200 mg), magnesium glycinate, omega-3, and sufficient protein. Bloodwork (CBC, CMP, lipids, fasting glucose / HbA1c) before and after the full cycle is reasonable. Take a 4–6 week break before repeating.',
   },
   {
     kind: 'peptide',
