@@ -2645,7 +2645,7 @@
 const LIBRARY = [
   // ========== SUPPLEMENTS ==========
   {
-    id: 'vit-d3', name: 'Vitamin D3 (Cholecalciferol)', type: 'supplement',
+    id: 'vit-d3', name: 'Vitamin D3 (Cholecalciferol)', type: 'supplement', subtype: 'vitamin',
     category: 'Vitamin', summary: 'Fat-soluble vitamin essential for bone health, immune function, and mood regulation.',
     benefits: ['Supports calcium absorption and bone density', 'Modulates immune function', 'Linked to mood regulation', 'Reduces respiratory infection risk'],
     dosage: 'Typical: 1,000–5,000 IU/day. Dose to target a 25(OH)D blood level of 40–60 ng/mL.',
@@ -2655,7 +2655,7 @@ const LIBRARY = [
     halflife: '~15 days (D3); 25(OH)D ~2–3 weeks',
   },
   {
-    id: 'vit-k2', name: 'Vitamin K2 (MK-7)', type: 'supplement',
+    id: 'vit-k2', name: 'Vitamin K2 (MK-7)', type: 'supplement', subtype: 'vitamin',
     category: 'Vitamin', summary: 'Activates proteins that direct calcium to bones and away from arteries.',
     benefits: ['Supports bone mineralization', 'May reduce arterial calcification', 'Synergistic with vitamin D3'],
     dosage: '90–200 mcg/day MK-7. MK-4 forms typically dosed higher (15 mg).',
@@ -2665,7 +2665,7 @@ const LIBRARY = [
     halflife: 'MK-7: ~3 days (vs. ~1 hr for K1)',
   },
   {
-    id: 'mg-glycinate', name: 'Magnesium Glycinate', type: 'supplement',
+    id: 'mg-glycinate', name: 'Magnesium Glycinate', type: 'supplement', subtype: 'mineral',
     category: 'Mineral', summary: 'Highly bioavailable, gentle form of magnesium ideal for sleep and relaxation.',
     benefits: ['Supports sleep quality and relaxation', 'Helps muscle recovery', 'Cofactor in 300+ enzymatic reactions', 'Less GI distress than other forms'],
     dosage: '200–400 mg elemental magnesium/day.',
@@ -2675,7 +2675,7 @@ const LIBRARY = [
     halflife: '~42 hr',
   },
   {
-    id: 'mg-threonate', name: 'Magnesium L-Threonate', type: 'supplement',
+    id: 'mg-threonate', name: 'Magnesium L-Threonate', type: 'supplement', subtype: 'mineral',
     category: 'Mineral / Nootropic', summary: 'Form of magnesium that crosses the blood-brain barrier — used for cognition and sleep.',
     benefits: ['May enhance memory and cognition', 'Supports REM sleep', 'Increases brain magnesium levels'],
     dosage: '1,500–2,000 mg of the threonate compound (~144 mg elemental Mg).',
@@ -2765,7 +2765,7 @@ const LIBRARY = [
     halflife: '~30–50 min',
   },
   {
-    id: 'b12', name: 'Vitamin B12 (Methylcobalamin)', type: 'supplement',
+    id: 'b12', name: 'Vitamin B12 (Methylcobalamin)', type: 'supplement', subtype: 'vitamin',
     category: 'Vitamin', summary: 'Essential for nerve function, red blood cell formation, and methylation.',
     benefits: ['Supports nerve function and energy', 'Critical for vegetarians/vegans', 'Methylcobalamin is bioactive form'],
     dosage: '500–2,000 mcg/day sublingual or oral.',
@@ -2775,7 +2775,7 @@ const LIBRARY = [
     halflife: '~6 days (storage allows months)',
   },
   {
-    id: 'zinc', name: 'Zinc (Picolinate or Bisglycinate)', type: 'supplement',
+    id: 'zinc', name: 'Zinc (Picolinate or Bisglycinate)', type: 'supplement', subtype: 'mineral',
     category: 'Mineral', summary: 'Essential mineral for immune function, hormone production, and wound healing.',
     benefits: ['Supports immune function', 'Testosterone support (in deficient men)', 'Wound healing and skin'],
     dosage: '15–30 mg/day. Don\'t exceed 40 mg long-term without monitoring.',
@@ -2815,7 +2815,7 @@ const LIBRARY = [
     halflife: '~5 hr',
   },
   {
-    id: 'multi-b', name: 'B-Complex (Activated)', type: 'supplement',
+    id: 'multi-b', name: 'B-Complex (Activated)', type: 'supplement', subtype: 'vitamin',
     category: 'Vitamin', summary: 'Methylated/bioactive forms of B vitamins — important for energy, methylation, and nervous system.',
     benefits: ['Supports energy metabolism', 'Methylation (especially with MTHFR variants)', 'Nervous system support'],
     dosage: '1 capsule of a balanced complex daily. Look for: methylfolate (5-MTHF), methylcobalamin, P5P.',
