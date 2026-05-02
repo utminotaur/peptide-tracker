@@ -539,6 +539,309 @@
     margin-top: 0.75rem;
   }
 
+  /* PERSONAL DATA SECTION */
+  .sub-tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+  .sub-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-dim);
+    padding: 0.6rem 1rem;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .sub-tab:hover { color: var(--text); }
+  .sub-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .sub-panel { display: none; }
+  .sub-panel.active { display: block; animation: fadeIn 0.2s; }
+  .goal-pill-row {
+    display: inline-flex;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .goal-pill-row button {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .goal-pill-row button.active {
+    background: var(--accent);
+    color: #0a1f0e;
+    font-weight: 700;
+  }
+  .goal-pill-row button.active.muscle {
+    background: var(--peptide);
+    color: #1a0a3a;
+  }
+  /* Body composition chart */
+  .chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .chart-svg {
+    width: 100%;
+    height: 280px;
+    display: block;
+  }
+  .chart-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 240px;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .chart-legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .chart-legend-item { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .chart-legend-swatch { width: 12px; height: 3px; border-radius: 2px; }
+  .chart-tooltip {
+    position: absolute;
+    background: var(--bg-elevated);
+    border: 1px solid var(--peptide);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 10;
+    white-space: nowrap;
+    transform: translate(-50%, -110%);
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  .chart-tooltip.visible { opacity: 1; }
+
+  /* Stats summary */
+  .body-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .body-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .body-stat-label {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .body-stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1.1; }
+  .body-stat-delta { font-size: 0.8rem; margin-top: 0.25rem; }
+  .body-stat-delta.positive { color: var(--accent); }
+  .body-stat-delta.negative { color: var(--danger); }
+  .body-stat-delta.neutral { color: var(--text-dim); }
+
+  /* Measurement list */
+  .measurement-row {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .measurement-date { color: var(--text-dim); font-size: 0.85rem; min-width: 100px; }
+  .measurement-stats { flex: 1; display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.85rem; }
+  .measurement-stats span { color: var(--text); }
+  .measurement-stats span strong { color: var(--accent); }
+  .measurement-source-tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .measurement-source-tag.dexa { background: rgba(167,139,250,0.15); color: var(--peptide); }
+  .measurement-source-tag.scale { background: rgba(96,165,250,0.15); color: var(--supplement); }
+  .measurement-source-tag.manual { background: rgba(74,222,128,0.15); color: var(--accent); }
+
+  /* Photo grid */
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+  .photo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .photo-card:hover { border-color: var(--peptide); transform: translateY(-2px); }
+  .photo-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-card-meta {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  .photo-card-date { font-weight: 600; color: var(--text); }
+  .photo-card-tag {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: rgba(15, 20, 25, 0.85);
+    color: var(--text);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .photo-fullview {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 1rem;
+  }
+  .photo-fullview.active { display: flex; }
+  .photo-fullview img { max-width: 100%; max-height: 95vh; border-radius: 8px; }
+  .photo-fullview-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--text);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* Food intake */
+  .food-summary-card {
+    background: linear-gradient(135deg, var(--accent-dim), var(--bg-card));
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .macro-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .macro-item { text-align: center; }
+  .macro-value { font-size: 1.4rem; font-weight: 700; }
+  .macro-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
+  .macro-value.cal { color: var(--accent); }
+  .macro-value.p { color: var(--peptide); }
+  .macro-value.c { color: var(--warning); }
+  .macro-value.f { color: var(--supplement); }
+  .meal-row {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Cognitive */
+  .cog-link-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    transition: all 0.15s;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .cog-link-card:hover { border-color: var(--peptide); transform: translateY(-2px); }
+  .cog-link-card .cog-link-name { font-weight: 600; color: var(--peptide); }
+  .cog-link-card .cog-link-desc { font-size: 0.8rem; color: var(--text-dim); }
+  .cog-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .cog-entry {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--peptide);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .cog-entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .cog-entry-marker { font-weight: 600; }
+  .cog-entry-score { font-size: 1.1rem; color: var(--accent); font-weight: 700; }
+  .cog-entry-date { color: var(--text-dim); font-size: 0.8rem; }
+  .cog-entry-notes { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.4rem; }
+
   /* PROTOCOL LINK BUTTON */
   .protocol-link-btn {
     display: inline-flex;
@@ -1313,6 +1616,7 @@
       <button class="tab-btn" data-tab="protocols">Protocols</button>
       <button class="tab-btn" data-tab="inventory">Inventory</button>
       <button class="tab-btn" data-tab="stack">My Stack</button>
+      <button class="tab-btn" data-tab="personal">Personal</button>
     </nav>
   </div>
 </header>
@@ -1505,6 +1809,130 @@
     <div id="vials-list"></div>
   </section>
 
+  <!-- PERSONAL -->
+  <section class="panel" id="panel-personal">
+    <div class="panel-header">
+      <h2>Personal Data</h2>
+      <div class="goal-pill-row" id="goal-pill-row">
+        <button type="button" class="active" data-goal="weight-loss" onclick="setPersonalGoal('weight-loss')">Goal: Weight Loss</button>
+        <button type="button" class="muscle" data-goal="muscle-gain" onclick="setPersonalGoal('muscle-gain')">Goal: Muscle Gain</button>
+      </div>
+    </div>
+
+    <div class="disclaimer" style="margin-bottom:1rem;">
+      <strong>Private and local.</strong> All personal data — weight, photos, food, cognitive notes — is stored only in this browser. Nothing is uploaded or sent anywhere.
+    </div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab active" data-section="body" onclick="switchPersonalSection('body')">Body Composition</button>
+      <button class="sub-tab" data-section="photos" onclick="switchPersonalSection('photos')">Progress Photos</button>
+      <button class="sub-tab" data-section="food" onclick="switchPersonalSection('food')">Food Intake</button>
+      <button class="sub-tab" data-section="cognitive" onclick="switchPersonalSection('cognitive')">Cognitive Markers</button>
+    </div>
+
+    <!-- BODY COMPOSITION -->
+    <div class="sub-panel active" id="sub-body">
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="openMeasurementModal()">+ Add Measurement</button>
+        <button class="btn-secondary" onclick="document.getElementById('scale-import-input').click()">Import CSV (scale / DEXA)</button>
+        <input type="file" id="scale-import-input" accept=".csv,.txt" style="display:none;" onchange="handleScaleCsvImport(event)" />
+      </div>
+
+      <div class="body-stats-grid" id="body-stats-grid"></div>
+
+      <div class="chart-container">
+        <svg class="chart-svg" id="weight-chart" viewBox="0 0 800 280" preserveAspectRatio="none"></svg>
+        <div class="chart-tooltip" id="chart-tooltip"></div>
+        <div class="chart-legend" id="chart-legend"></div>
+      </div>
+
+      <h3 style="font-size:1.05rem;font-weight:600;margin:1.5rem 0 0.75rem;">Measurement Log</h3>
+      <div id="measurements-list"></div>
+    </div>
+
+    <!-- PROGRESS PHOTOS -->
+    <div class="sub-panel" id="sub-photos">
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="document.getElementById('photo-upload-input').click()">+ Add Photo</button>
+        <input type="file" id="photo-upload-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)" />
+        <select id="photo-tag-select" style="padding:0.5rem 0.75rem;">
+          <option value="">— No tag —</option>
+          <option value="front">Front</option>
+          <option value="side">Side</option>
+          <option value="back">Back</option>
+          <option value="face">Face</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div style="color:var(--text-dim);font-size:0.85rem;margin-bottom:1rem;">
+        Photos are auto-resized to 800px max and stored locally. Pick a tag (Front/Side/Back) before uploading to keep series consistent.
+      </div>
+      <div class="photos-grid" id="photos-grid"></div>
+    </div>
+
+    <!-- FOOD INTAKE -->
+    <div class="sub-panel" id="sub-food">
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+        <button class="btn-primary" onclick="openMealModal()">+ Log Meal</button>
+        <div class="date-nav" style="margin-left:auto;">
+          <button onclick="changeFoodDate(-1)">‹</button>
+          <span class="current-date" id="food-current-date" style="min-width:160px;"></span>
+          <button onclick="changeFoodDate(1)">›</button>
+        </div>
+        <button class="btn-secondary" onclick="goToFoodToday()">Today</button>
+      </div>
+      <div class="food-summary-card" id="food-summary"></div>
+      <div id="food-list"></div>
+    </div>
+
+    <!-- COGNITIVE -->
+    <div class="sub-panel" id="sub-cognitive">
+      <div style="margin-bottom:1.25rem;">
+        <h3 style="font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;">Recommended Assessments</h3>
+        <p style="color:var(--text-dim);font-size:0.85rem;margin-bottom:0.75rem;">Use any of these to baseline and track cognition over time. Take the same test under similar conditions (rested, hydrated, same time of day) to make scores comparable.</p>
+        <div class="cog-links-grid">
+          <a class="cog-link-card" href="https://humanbenchmark.com/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">Human Benchmark ↗</div>
+            <div class="cog-link-desc">Reaction time, working memory, visual memory, sequence memory. Quick and free.</div>
+          </a>
+          <a class="cog-link-card" href="https://www.cambridgebrainsciences.com/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">Cambridge Brain Sciences ↗</div>
+            <div class="cog-link-desc">Validated cognitive battery — reasoning, memory, verbal, attention.</div>
+          </a>
+          <a class="cog-link-card" href="https://www.cognifit.com/cognitive-assessment" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">CogniFit ↗</div>
+            <div class="cog-link-desc">22-skill cognitive assessment, science-based.</div>
+          </a>
+          <a class="cog-link-card" href="https://www.brainhq.com/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">BrainHQ (Posit Science) ↗</div>
+            <div class="cog-link-desc">Speed of processing, attention, working memory training and assessment.</div>
+          </a>
+          <a class="cog-link-card" href="https://www.lumosity.com/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">Lumosity ↗</div>
+            <div class="cog-link-desc">Daily LPI (Lumosity Performance Index) score across multiple cognitive areas.</div>
+          </a>
+          <a class="cog-link-card" href="https://www.mocatest.org/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">MoCA Test ↗</div>
+            <div class="cog-link-desc">Montreal Cognitive Assessment — clinical screening tool (provider-administered).</div>
+          </a>
+          <a class="cog-link-card" href="https://www.psytoolkit.org/experiment-library/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">PsyToolkit ↗</div>
+            <div class="cog-link-desc">N-back, Stroop, flanker, and other validated cognitive paradigms (free).</div>
+          </a>
+          <a class="cog-link-card" href="https://nback.app/" target="_blank" rel="noopener noreferrer">
+            <div class="cog-link-name">N-Back Test ↗</div>
+            <div class="cog-link-desc">Working memory test — gold standard for tracking nootropic effects.</div>
+          </a>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+        <button class="btn-primary" onclick="openCognitiveModal()">+ Log Score / Note</button>
+      </div>
+      <div id="cognitive-list"></div>
+    </div>
+  </section>
+
   <!-- STACK -->
   <section class="panel" id="panel-stack">
     <div class="panel-header">
@@ -1518,6 +1946,230 @@
 <!-- LIBRARY DETAIL MODAL -->
 <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeModal('modal-detail')">
   <div class="modal" id="modal-detail-content"></div>
+</div>
+
+<!-- MEASUREMENT MODAL -->
+<div class="modal-overlay" id="modal-measurement" onclick="if(event.target===this)closeModal('modal-measurement')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="measurement-modal-title">Add Measurement</h2>
+        <div class="modal-cat">Weight, body composition, BMI</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-measurement')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Date</label>
+          <input type="date" id="meas-date" />
+        </div>
+        <div class="form-field">
+          <label>Source</label>
+          <select id="meas-source">
+            <option value="manual">Manual</option>
+            <option value="scale">Smart Scale</option>
+            <option value="dexa">DEXA Scan</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Weight</label>
+          <div style="display:grid;grid-template-columns:1fr 80px;gap:0.4rem;">
+            <input type="number" inputmode="decimal" step="0.1" id="meas-weight" placeholder="e.g., 175" />
+            <select id="meas-weight-unit">
+              <option value="lb">lb</option>
+              <option value="kg">kg</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Body Fat %</label>
+          <input type="number" inputmode="decimal" step="0.1" id="meas-bodyfat" placeholder="optional" />
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Muscle Mass</label>
+          <div style="display:grid;grid-template-columns:1fr 80px;gap:0.4rem;">
+            <input type="number" inputmode="decimal" step="0.1" id="meas-muscle" placeholder="optional" />
+            <select id="meas-muscle-unit">
+              <option value="lb">lb</option>
+              <option value="kg">kg</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Height (one-time)</label>
+          <div style="display:grid;grid-template-columns:1fr 80px;gap:0.4rem;">
+            <input type="number" inputmode="decimal" step="0.5" id="meas-height" placeholder="for BMI" />
+            <select id="meas-height-unit">
+              <option value="in">in</option>
+              <option value="cm">cm</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Visceral Fat (rating)</label>
+          <input type="number" inputmode="numeric" step="1" id="meas-visceral" placeholder="optional" />
+        </div>
+        <div class="form-field">
+          <label>Bone Mass</label>
+          <input type="number" inputmode="decimal" step="0.1" id="meas-bone" placeholder="optional" />
+        </div>
+      </div>
+      <div class="form-grid full">
+        <div class="form-field">
+          <label>Notes</label>
+          <textarea id="meas-notes" rows="2" placeholder="Optional context — fasted weight, after workout, etc."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-measurement')">Cancel</button>
+      <button class="btn-primary" onclick="saveMeasurement()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEAL MODAL -->
+<div class="modal-overlay" id="modal-meal" onclick="if(event.target===this)closeModal('modal-meal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="meal-modal-title">Log Meal</h2>
+        <div class="modal-cat">Calories &amp; macros</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-meal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Date</label>
+          <input type="date" id="meal-date" />
+        </div>
+        <div class="form-field">
+          <label>Meal</label>
+          <select id="meal-type">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snack">Snack</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid full">
+        <div class="form-field">
+          <label>Description</label>
+          <input type="text" id="meal-name" placeholder="e.g., Chicken bowl with rice and veggies" />
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Calories</label>
+          <input type="number" inputmode="numeric" step="1" id="meal-calories" placeholder="kcal" />
+        </div>
+        <div class="form-field">
+          <label>Protein (g)</label>
+          <input type="number" inputmode="decimal" step="0.1" id="meal-protein" />
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Carbs (g)</label>
+          <input type="number" inputmode="decimal" step="0.1" id="meal-carbs" />
+        </div>
+        <div class="form-field">
+          <label>Fat (g)</label>
+          <input type="number" inputmode="decimal" step="0.1" id="meal-fat" />
+        </div>
+      </div>
+      <div class="form-grid full">
+        <div class="form-field">
+          <label>Notes (optional)</label>
+          <textarea id="meal-notes" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-meal')">Cancel</button>
+      <button class="btn-primary" onclick="saveMeal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- COGNITIVE MODAL -->
+<div class="modal-overlay" id="modal-cognitive" onclick="if(event.target===this)closeModal('modal-cognitive')">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="cognitive-modal-title">Log Cognitive Score</h2>
+        <div class="modal-cat">Track nootropic / peptide cognitive effects</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-cognitive')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Date</label>
+          <input type="date" id="cog-date" />
+        </div>
+        <div class="form-field">
+          <label>Assessment / Marker</label>
+          <select id="cog-marker">
+            <option value="">— Select —</option>
+            <option value="reaction-time">Reaction Time (ms)</option>
+            <option value="working-memory">Working Memory (n-back / span)</option>
+            <option value="visual-memory">Visual Memory</option>
+            <option value="sequence-memory">Sequence Memory</option>
+            <option value="number-memory">Number Memory</option>
+            <option value="verbal-memory">Verbal Memory</option>
+            <option value="lpi">Lumosity LPI</option>
+            <option value="cbs">Cambridge Brain Sciences (composite)</option>
+            <option value="cognifit">CogniFit Cognitive Score</option>
+            <option value="moca">MoCA</option>
+            <option value="custom">Custom / Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid full" id="cog-custom-row" style="display:none;">
+        <div class="form-field">
+          <label>Custom Marker Name</label>
+          <input type="text" id="cog-marker-custom" placeholder="e.g., Stroop task, IQ test, etc." />
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Score</label>
+          <input type="text" id="cog-score" placeholder="e.g., 285 ms or 7-back" />
+        </div>
+        <div class="form-field">
+          <label>Source</label>
+          <input type="text" id="cog-source" placeholder="e.g., humanbenchmark.com" />
+        </div>
+      </div>
+      <div class="form-grid full">
+        <div class="form-field">
+          <label>Subjective Notes</label>
+          <textarea id="cog-notes" rows="3" placeholder="How did you feel? Any active peptides/nootropics? Sleep quality?"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-cognitive')">Cancel</button>
+      <button class="btn-primary" onclick="saveCognitive()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO FULLVIEW -->
+<div class="photo-fullview" id="photo-fullview" onclick="if(event.target===this)closePhotoFull()">
+  <button class="photo-fullview-close" onclick="closePhotoFull()">×</button>
+  <img id="photo-fullview-img" src="" alt="Progress photo" />
 </div>
 
 <!-- GLP-1 DOSING GUIDE MODAL -->
@@ -3568,14 +4220,26 @@ const state = {
   stack: [],   // user's stack: {id, compoundId, dose, frequency, time, route, notes, createdAt}
   logs: {},    // logs[YYYY-MM-DD] = [{stackItemId, takenAt}]
   vials: [],   // peptide inventory: {id, peptideId, customName, mgPerVial, bacWaterMl, reconDate, expiresDate, lot, source, notes, remainingMl, createdAt}
+  personal: {  // Personal data (private, local-only)
+    goal: 'weight-loss',  // 'weight-loss' | 'muscle-gain'
+    height: null,         // value in cm internally
+    measurements: [],     // {id, date, weightKg, bodyFat, muscleKg, visceral, boneKg, source, notes}
+    photos: [],           // {id, date, dataUrl, tag, notes}
+    food: [],             // {id, date, type, name, calories, protein, carbs, fat, notes}
+    cognitive: [],        // {id, date, marker, customName, score, source, notes}
+  },
   currentDate: toDateKey(new Date()),
   calendarMonth: new Date(),
+  foodDate: toDateKey(new Date()),
+  personalSection: 'body',
   editingStackId: null,
   editingVialId: null,
   calcMode: 'vial', // 'vial' or 'manual'
   libUseFilter: 'all', // library use-case filter
   protocolFilter: 'all', // protocols filter
 };
+
+const PERSONAL_KEY = 'peptide-tracker:personal';
 
 function loadState() {
   try {
@@ -3587,10 +4251,27 @@ function loadState() {
       state.vials = (data.vials || []).map(migrateVial);
     }
   } catch(e) { console.error(e); }
+  // Personal data is stored separately to keep main blob small
+  try {
+    const p = localStorage.getItem(PERSONAL_KEY);
+    if (p) {
+      const parsed = JSON.parse(p);
+      state.personal = Object.assign(state.personal, parsed);
+    }
+  } catch(e) { console.error(e); }
   // Assign colors to anything missing one
   let i = 0;
   state.stack.forEach(s => { if (!s.color) s.color = PALETTE[i++ % PALETTE.length]; });
   state.vials.forEach(v => { if (!v.color) v.color = PALETTE[i++ % PALETTE.length]; });
+}
+
+function savePersonal() {
+  try {
+    localStorage.setItem(PERSONAL_KEY, JSON.stringify(state.personal));
+  } catch(e) {
+    console.error(e);
+    alert('Storage limit reached — try removing some progress photos before adding new ones. (Browsers limit local storage to ~5–10 MB.)');
+  }
 }
 function migrateStackItem(s) {
   // Convert legacy free-text 'dose' to structured doseAmount + doseUnit
@@ -3863,6 +4544,7 @@ function switchTab(tab) {
   if (tab === 'protocols') renderProtocols();
   if (tab === 'inventory') renderInventory();
   if (tab === 'stack') renderStack();
+  if (tab === 'personal') renderPersonal();
 }
 document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
@@ -5578,6 +6260,742 @@ function setResults(conc, concSub, vol, units, doses, msg) {
   document.getElementById('res-vol').textContent = vol;
   document.getElementById('res-units').textContent = units;
   document.getElementById('res-doses').textContent = doses;
+}
+
+// ============================================================
+// PERSONAL DATA
+// ============================================================
+function setPersonalGoal(goal) {
+  state.personal.goal = goal;
+  savePersonal();
+  document.querySelectorAll('#goal-pill-row button').forEach(b =>
+    b.classList.toggle('active', b.dataset.goal === goal)
+  );
+  renderPersonal();
+}
+
+function switchPersonalSection(section) {
+  state.personalSection = section;
+  document.querySelectorAll('#panel-personal .sub-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.section === section)
+  );
+  document.querySelectorAll('#panel-personal .sub-panel').forEach(p =>
+    p.classList.toggle('active', p.id === 'sub-' + section)
+  );
+  renderPersonal();
+}
+
+function renderPersonal() {
+  // Goal pills
+  document.querySelectorAll('#goal-pill-row button').forEach(b =>
+    b.classList.toggle('active', b.dataset.goal === state.personal.goal)
+  );
+  if (state.personalSection === 'body') renderBodyComp();
+  if (state.personalSection === 'photos') renderPhotos();
+  if (state.personalSection === 'food') renderFood();
+  if (state.personalSection === 'cognitive') renderCognitive();
+}
+
+// ---- Body composition ----
+function lbToKg(lb) { return lb * 0.45359237; }
+function kgToLb(kg) { return kg / 0.45359237; }
+function inToCm(inches) { return inches * 2.54; }
+function cmToIn(cm) { return cm / 2.54; }
+
+function computeBmi(weightKg, heightCm) {
+  if (!weightKg || !heightCm) return null;
+  const m = heightCm / 100;
+  return weightKg / (m * m);
+}
+
+function openMeasurementModal() {
+  document.getElementById('measurement-modal-title').textContent = 'Add Measurement';
+  document.getElementById('meas-date').value = toDateKey(new Date());
+  document.getElementById('meas-source').value = 'manual';
+  document.getElementById('meas-weight').value = '';
+  document.getElementById('meas-weight-unit').value = 'lb';
+  document.getElementById('meas-bodyfat').value = '';
+  document.getElementById('meas-muscle').value = '';
+  document.getElementById('meas-muscle-unit').value = 'lb';
+  document.getElementById('meas-height').value = state.personal.height ? cmToIn(state.personal.height).toFixed(1) : '';
+  document.getElementById('meas-height-unit').value = 'in';
+  document.getElementById('meas-visceral').value = '';
+  document.getElementById('meas-bone').value = '';
+  document.getElementById('meas-notes').value = '';
+  document.getElementById('modal-measurement').classList.add('active');
+}
+
+function saveMeasurement() {
+  const date = document.getElementById('meas-date').value || toDateKey(new Date());
+  const source = document.getElementById('meas-source').value;
+  const weightVal = parseFloat(document.getElementById('meas-weight').value);
+  const weightUnit = document.getElementById('meas-weight-unit').value;
+  const bf = parseFloat(document.getElementById('meas-bodyfat').value);
+  const muscleVal = parseFloat(document.getElementById('meas-muscle').value);
+  const muscleUnit = document.getElementById('meas-muscle-unit').value;
+  const heightVal = parseFloat(document.getElementById('meas-height').value);
+  const heightUnit = document.getElementById('meas-height-unit').value;
+  const visceral = parseFloat(document.getElementById('meas-visceral').value);
+  const boneVal = parseFloat(document.getElementById('meas-bone').value);
+  const notes = document.getElementById('meas-notes').value.trim();
+
+  if (!isFinite(weightVal) || weightVal <= 0) { alert('Enter a weight value.'); return; }
+
+  const weightKg = weightUnit === 'lb' ? lbToKg(weightVal) : weightVal;
+  const muscleKg = isFinite(muscleVal) ? (muscleUnit === 'lb' ? lbToKg(muscleVal) : muscleVal) : null;
+  const boneKg = isFinite(boneVal) ? (boneVal < 5 ? boneVal : lbToKg(boneVal)) : null; // bone is small, assume kg
+  if (isFinite(heightVal) && heightVal > 0) {
+    state.personal.height = heightUnit === 'in' ? inToCm(heightVal) : heightVal;
+  }
+  state.personal.measurements.push({
+    id: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+    date,
+    weightKg,
+    bodyFat: isFinite(bf) ? bf : null,
+    muscleKg,
+    visceral: isFinite(visceral) ? visceral : null,
+    boneKg,
+    source,
+    notes,
+  });
+  state.personal.measurements.sort((a, b) => a.date.localeCompare(b.date));
+  savePersonal();
+  closeModal('modal-measurement');
+  renderBodyComp();
+}
+
+function deleteMeasurement(id) {
+  if (!confirm('Delete this measurement?')) return;
+  state.personal.measurements = state.personal.measurements.filter(m => m.id !== id);
+  savePersonal();
+  renderBodyComp();
+}
+
+function renderBodyComp() {
+  const ms = state.personal.measurements;
+  const goalIsLoss = state.personal.goal === 'weight-loss';
+
+  // Stats summary
+  const grid = document.getElementById('body-stats-grid');
+  if (ms.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+      <p>No measurements yet. Add a manual entry, or import a CSV from your smart scale or DEXA scan.</p>
+      <button class="btn-primary" onclick="openMeasurementModal()">+ Add Your First Measurement</button>
+    </div>`;
+  } else {
+    const latest = ms[ms.length - 1];
+    const first = ms[0];
+    const weightLb = kgToLb(latest.weightKg);
+    const startLb = kgToLb(first.weightKg);
+    const deltaLb = weightLb - startLb;
+    const bmi = state.personal.height ? computeBmi(latest.weightKg, state.personal.height) : null;
+    const muscleDeltaKg = (latest.muscleKg != null && first.muscleKg != null) ? (latest.muscleKg - first.muscleKg) : null;
+    const bfDelta = (latest.bodyFat != null && first.bodyFat != null) ? (latest.bodyFat - first.bodyFat) : null;
+
+    function deltaClass(v, goodIfDecreasing) {
+      if (v == null || Math.abs(v) < 0.05) return 'neutral';
+      if (goodIfDecreasing) return v < 0 ? 'positive' : 'negative';
+      return v > 0 ? 'positive' : 'negative';
+    }
+    function fmtDelta(v, suffix, goodIfDecreasing) {
+      if (v == null) return '<span class="body-stat-delta neutral">— no change</span>';
+      const sign = v > 0 ? '+' : '';
+      const cls = deltaClass(v, goodIfDecreasing);
+      return `<span class="body-stat-delta ${cls}">${sign}${v.toFixed(1)}${suffix} since start</span>`;
+    }
+
+    grid.innerHTML = `
+      <div class="body-stat">
+        <div class="body-stat-label">Current Weight</div>
+        <div class="body-stat-value">${weightLb.toFixed(1)} lb</div>
+        <div style="font-size:0.75rem;color:var(--text-dim);">${latest.weightKg.toFixed(1)} kg</div>
+        ${fmtDelta(deltaLb, ' lb', goalIsLoss)}
+      </div>
+      <div class="body-stat">
+        <div class="body-stat-label">BMI</div>
+        <div class="body-stat-value">${bmi != null ? bmi.toFixed(1) : '—'}</div>
+        <div style="font-size:0.75rem;color:var(--text-dim);">${bmi != null ? bmiCategory(bmi) : 'Add height'}</div>
+      </div>
+      <div class="body-stat">
+        <div class="body-stat-label">Body Fat %</div>
+        <div class="body-stat-value">${latest.bodyFat != null ? latest.bodyFat.toFixed(1) + '%' : '—'}</div>
+        ${bfDelta != null ? fmtDelta(bfDelta, '%', true) : '<span class="body-stat-delta neutral">add to log</span>'}
+      </div>
+      <div class="body-stat">
+        <div class="body-stat-label">Muscle Mass</div>
+        <div class="body-stat-value">${latest.muscleKg != null ? kgToLb(latest.muscleKg).toFixed(1) + ' lb' : '—'}</div>
+        ${muscleDeltaKg != null ? fmtDelta(kgToLb(muscleDeltaKg), ' lb', false) : '<span class="body-stat-delta neutral">add to log</span>'}
+      </div>
+    `;
+  }
+
+  // Chart
+  drawWeightChart();
+
+  // Measurement log
+  const list = document.getElementById('measurements-list');
+  if (ms.length === 0) {
+    list.innerHTML = '';
+  } else {
+    list.innerHTML = '';
+    [...ms].reverse().forEach(m => {
+      const row = document.createElement('div');
+      row.className = 'measurement-row';
+      const weightLb = kgToLb(m.weightKg);
+      row.innerHTML = `
+        <span class="measurement-date">${new Date(m.date).toLocaleDateString()}</span>
+        <span class="measurement-source-tag ${m.source || 'manual'}">${m.source || 'manual'}</span>
+        <div class="measurement-stats">
+          <span><strong>${weightLb.toFixed(1)} lb</strong> (${m.weightKg.toFixed(1)} kg)</span>
+          ${m.bodyFat != null ? `<span>BF: <strong>${m.bodyFat.toFixed(1)}%</strong></span>` : ''}
+          ${m.muscleKg != null ? `<span>Muscle: <strong>${kgToLb(m.muscleKg).toFixed(1)} lb</strong></span>` : ''}
+          ${m.visceral != null ? `<span>VFR: <strong>${m.visceral}</strong></span>` : ''}
+          ${m.boneKg != null ? `<span>Bone: <strong>${m.boneKg.toFixed(1)} kg</strong></span>` : ''}
+          ${m.notes ? `<span style="color:var(--text-dim);">— ${escapeHtml(m.notes)}</span>` : ''}
+        </div>
+        <button class="btn-icon" onclick="deleteMeasurement('${m.id}')" style="color:var(--danger);">Remove</button>
+      `;
+      list.appendChild(row);
+    });
+  }
+}
+
+function bmiCategory(b) {
+  if (b < 18.5) return 'Underweight';
+  if (b < 25) return 'Normal';
+  if (b < 30) return 'Overweight';
+  if (b < 35) return 'Obese class I';
+  if (b < 40) return 'Obese class II';
+  return 'Obese class III';
+}
+
+// SVG line chart
+function drawWeightChart() {
+  const svg = document.getElementById('weight-chart');
+  if (!svg) return;
+  const ms = state.personal.measurements;
+  svg.innerHTML = '';
+
+  if (ms.length < 1) {
+    svg.innerHTML = '<text x="400" y="140" fill="#8b98a9" text-anchor="middle" font-size="14">Add measurements to see your trend</text>';
+    document.getElementById('chart-legend').innerHTML = '';
+    return;
+  }
+
+  const W = 800, H = 280, P = { l: 50, r: 20, t: 20, b: 40 };
+  const innerW = W - P.l - P.r;
+  const innerH = H - P.t - P.b;
+
+  // X-domain: dates as ms timestamps; Y-domain: weight in lb
+  const dates = ms.map(m => new Date(m.date).getTime());
+  const minDate = Math.min(...dates);
+  const maxDate = Math.max(...dates);
+  const dateRange = Math.max(1, maxDate - minDate);
+
+  const weightsLb = ms.map(m => kgToLb(m.weightKg));
+  const bfPercents = ms.map(m => m.bodyFat).filter(v => v != null);
+  const musclesLb = ms.map(m => m.muscleKg != null ? kgToLb(m.muscleKg) : null).filter(v => v != null);
+
+  // Y-domain for weight
+  const yMin = Math.min(...weightsLb) - 3;
+  const yMax = Math.max(...weightsLb) + 3;
+  const yRange = Math.max(1, yMax - yMin);
+
+  function xCoord(d) { return P.l + ((d - minDate) / dateRange) * innerW; }
+  function yCoord(w) { return P.t + (1 - (w - yMin) / yRange) * innerH; }
+
+  // Y-axis gridlines and labels
+  for (let i = 0; i <= 4; i++) {
+    const y = P.t + (innerH * i / 4);
+    const value = yMax - (yRange * i / 4);
+    svg.innerHTML += `<line x1="${P.l}" y1="${y}" x2="${W - P.r}" y2="${y}" stroke="#2f3a4a" stroke-width="1" stroke-dasharray="2,3"/>`;
+    svg.innerHTML += `<text x="${P.l - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="#8b98a9">${value.toFixed(1)}</text>`;
+  }
+
+  // X-axis labels (first, mid, last)
+  function fmtDate(t) { return new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); }
+  if (ms.length === 1) {
+    svg.innerHTML += `<text x="${xCoord(minDate)}" y="${H - 12}" text-anchor="middle" font-size="11" fill="#8b98a9">${fmtDate(minDate)}</text>`;
+  } else {
+    const labelCount = Math.min(5, ms.length);
+    for (let i = 0; i < labelCount; i++) {
+      const t = minDate + (dateRange * i / (labelCount - 1));
+      svg.innerHTML += `<text x="${xCoord(t)}" y="${H - 12}" text-anchor="middle" font-size="11" fill="#8b98a9">${fmtDate(t)}</text>`;
+    }
+  }
+
+  // Goal-direction trend reference line
+  if (ms.length >= 2) {
+    const startY = yCoord(weightsLb[0]);
+    const endY = yCoord(weightsLb[weightsLb.length - 1]);
+    svg.innerHTML += `<line x1="${xCoord(dates[0])}" y1="${startY}" x2="${xCoord(dates[dates.length-1])}" y2="${endY}" stroke="#2f3a4a" stroke-width="1" stroke-dasharray="4,4"/>`;
+  }
+
+  // Weight line (primary)
+  const goalColor = state.personal.goal === 'weight-loss' ? '#4ade80' : '#a78bfa';
+  let weightPath = '';
+  ms.forEach((m, i) => {
+    const x = xCoord(new Date(m.date).getTime());
+    const y = yCoord(kgToLb(m.weightKg));
+    weightPath += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+  });
+  if (weightPath) {
+    svg.innerHTML += `<path d="${weightPath}" fill="none" stroke="${goalColor}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+
+  // Body fat % line (secondary axis — reuse y-range proportionally)
+  if (bfPercents.length > 1) {
+    const bfMin = Math.min(...bfPercents) - 2;
+    const bfMax = Math.max(...bfPercents) + 2;
+    const bfRange = Math.max(1, bfMax - bfMin);
+    let bfPath = '';
+    let started = false;
+    ms.forEach(m => {
+      if (m.bodyFat == null) return;
+      const x = xCoord(new Date(m.date).getTime());
+      const y = P.t + (1 - (m.bodyFat - bfMin) / bfRange) * innerH;
+      bfPath += (!started ? 'M' : 'L') + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+      started = true;
+    });
+    if (bfPath) {
+      svg.innerHTML += `<path d="${bfPath}" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,3" opacity="0.85"/>`;
+    }
+  }
+
+  // Muscle mass line (secondary)
+  if (musclesLb.length > 1) {
+    const muMin = Math.min(...musclesLb) - 3;
+    const muMax = Math.max(...musclesLb) + 3;
+    const muRange = Math.max(1, muMax - muMin);
+    let muPath = '';
+    let started = false;
+    ms.forEach(m => {
+      if (m.muscleKg == null) return;
+      const x = xCoord(new Date(m.date).getTime());
+      const y = P.t + (1 - (kgToLb(m.muscleKg) - muMin) / muRange) * innerH;
+      muPath += (!started ? 'M' : 'L') + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+      started = true;
+    });
+    if (muPath) {
+      svg.innerHTML += `<path d="${muPath}" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="2,3" opacity="0.85"/>`;
+    }
+  }
+
+  // Data point dots for primary weight series
+  ms.forEach(m => {
+    const x = xCoord(new Date(m.date).getTime());
+    const y = yCoord(kgToLb(m.weightKg));
+    svg.innerHTML += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="4" fill="${goalColor}" stroke="#0f1419" stroke-width="2"/>`;
+  });
+
+  // Y-axis title
+  svg.innerHTML += `<text x="${P.l - 38}" y="${P.t + innerH / 2}" text-anchor="middle" font-size="11" fill="#8b98a9" transform="rotate(-90 ${P.l - 38} ${P.t + innerH / 2})">Weight (lb)</text>`;
+
+  // Legend
+  const legend = document.getElementById('chart-legend');
+  if (legend) {
+    let html = `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${goalColor};"></span>Weight (lb)</span>`;
+    if (bfPercents.length > 1) html += `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#fbbf24;"></span>Body Fat %</span>`;
+    if (musclesLb.length > 1) html += `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#a78bfa;"></span>Muscle Mass (lb)</span>`;
+    legend.innerHTML = html;
+  }
+}
+
+// CSV import for smart scales / DEXA
+function handleScaleCsvImport(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const txt = e.target.result;
+      const rows = parseCsv(txt);
+      if (rows.length < 2) { alert('CSV is empty.'); return; }
+      const header = rows[0].map(h => h.toLowerCase().trim());
+      const findIdx = names => {
+        for (const n of names) {
+          const i = header.findIndex(h => h.includes(n));
+          if (i >= 0) return i;
+        }
+        return -1;
+      };
+      const dateIdx = findIdx(['date', 'time', 'timestamp']);
+      const weightIdx = findIdx(['weight', 'mass']);
+      const bfIdx = findIdx(['fat %', 'body fat', 'fat percentage', 'fat percent', 'fat_pct', 'bodyfat']);
+      const muscleIdx = findIdx(['muscle mass', 'muscle']);
+      const visceralIdx = findIdx(['visceral']);
+      const boneIdx = findIdx(['bone']);
+
+      if (dateIdx < 0 || weightIdx < 0) {
+        alert('Could not find Date and Weight columns. Make sure the CSV header has at least "Date" and "Weight" columns.');
+        return;
+      }
+      let added = 0;
+      for (let r = 1; r < rows.length; r++) {
+        const cells = rows[r];
+        if (!cells || cells.length === 0) continue;
+        const dateStr = cells[dateIdx];
+        const weightStr = cells[weightIdx];
+        if (!dateStr || !weightStr) continue;
+        const dateObj = new Date(dateStr);
+        if (isNaN(dateObj.getTime())) continue;
+        const date = toDateKey(dateObj);
+        const weightNum = parseFloat(weightStr);
+        if (!isFinite(weightNum) || weightNum <= 0) continue;
+        // Heuristic: if weight > 50 it's probably kg or lb. If unit hint unclear, assume kg if value is roughly 30–200 and the header mentions "kg", else lb
+        let weightKg;
+        const hdr = (header[weightIdx] || '').toLowerCase();
+        if (hdr.includes('kg')) weightKg = weightNum;
+        else if (hdr.includes('lb') || hdr.includes('pound')) weightKg = lbToKg(weightNum);
+        else weightKg = weightNum > 110 ? lbToKg(weightNum) : weightNum; // crude heuristic for unlabeled
+
+        const bf = bfIdx >= 0 ? parseFloat(cells[bfIdx]) : NaN;
+        const muscleNum = muscleIdx >= 0 ? parseFloat(cells[muscleIdx]) : NaN;
+        const muscleHdr = muscleIdx >= 0 ? (header[muscleIdx] || '').toLowerCase() : '';
+        let muscleKg = null;
+        if (isFinite(muscleNum)) {
+          if (muscleHdr.includes('lb') || muscleHdr.includes('pound')) muscleKg = lbToKg(muscleNum);
+          else muscleKg = muscleNum;
+        }
+        const visceral = visceralIdx >= 0 ? parseFloat(cells[visceralIdx]) : NaN;
+        const boneNum = boneIdx >= 0 ? parseFloat(cells[boneIdx]) : NaN;
+
+        state.personal.measurements.push({
+          id: 'm_' + Date.now() + '_' + r + '_' + Math.random().toString(36).slice(2,4),
+          date,
+          weightKg,
+          bodyFat: isFinite(bf) ? bf : null,
+          muscleKg,
+          visceral: isFinite(visceral) ? visceral : null,
+          boneKg: isFinite(boneNum) ? boneNum : null,
+          source: 'scale',
+          notes: '',
+        });
+        added++;
+      }
+      // Dedupe by date+source+weight (keep first)
+      const seen = new Set();
+      state.personal.measurements = state.personal.measurements.filter(m => {
+        const key = m.date + '|' + (m.source || '') + '|' + m.weightKg.toFixed(2);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      state.personal.measurements.sort((a, b) => a.date.localeCompare(b.date));
+      savePersonal();
+      renderBodyComp();
+      alert('Imported ' + added + ' measurement(s).');
+    } catch(err) {
+      console.error(err);
+      alert('Could not parse CSV: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let cur = [], field = '', inQuote = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuote) {
+      if (c === '"') {
+        if (text[i+1] === '"') { field += '"'; i++; }
+        else inQuote = false;
+      } else field += c;
+    } else {
+      if (c === '"') inQuote = true;
+      else if (c === ',') { cur.push(field); field = ''; }
+      else if (c === '\n') { cur.push(field); rows.push(cur); cur = []; field = ''; }
+      else if (c === '\r') { /* skip */ }
+      else field += c;
+    }
+  }
+  if (field || cur.length) { cur.push(field); rows.push(cur); }
+  return rows;
+}
+
+// ---- Progress photos ----
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const tag = document.getElementById('photo-tag-select').value || '';
+  compressImage(file, 800, 0.78).then(dataUrl => {
+    state.personal.photos.push({
+      id: 'ph_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+      date: toDateKey(new Date()),
+      dataUrl,
+      tag,
+      notes: '',
+    });
+    state.personal.photos.sort((a, b) => b.date.localeCompare(a.date));
+    savePersonal();
+    renderPhotos();
+  }).catch(err => {
+    console.error(err);
+    alert('Could not process photo: ' + err.message);
+  });
+  event.target.value = '';
+}
+
+function compressImage(file, maxDim, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('File read failed'));
+    reader.onload = e => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Image decode failed'));
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPhotos() {
+  const grid = document.getElementById('photos-grid');
+  grid.innerHTML = '';
+  if (state.personal.photos.length === 0) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><p>No progress photos yet. Pick a tag above (Front/Side/Back) and add your first photo.</p></div>';
+    return;
+  }
+  state.personal.photos.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'photo-card';
+    card.onclick = () => openPhotoFull(p.id);
+    card.innerHTML = `
+      ${p.tag ? `<span class="photo-card-tag">${escapeHtml(p.tag)}</span>` : ''}
+      <img src="${p.dataUrl}" alt="Progress photo" />
+      <div class="photo-card-meta">
+        <div class="photo-card-date">${new Date(p.date).toLocaleDateString()}</div>
+        ${p.notes ? `<div>${escapeHtml(p.notes)}</div>` : ''}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function openPhotoFull(id) {
+  const p = state.personal.photos.find(x => x.id === id);
+  if (!p) return;
+  state.viewingPhotoId = id;
+  document.getElementById('photo-fullview-img').src = p.dataUrl;
+  document.getElementById('photo-fullview').classList.add('active');
+}
+function closePhotoFull() {
+  document.getElementById('photo-fullview').classList.remove('active');
+  state.viewingPhotoId = null;
+}
+function deletePhoto(id) {
+  if (!confirm('Delete this photo?')) return;
+  state.personal.photos = state.personal.photos.filter(p => p.id !== id);
+  savePersonal();
+  closePhotoFull();
+  renderPhotos();
+}
+
+// ---- Food intake ----
+function changeFoodDate(delta) {
+  const d = fromDateKey(state.foodDate);
+  d.setDate(d.getDate() + delta);
+  state.foodDate = toDateKey(d);
+  renderFood();
+}
+function goToFoodToday() {
+  state.foodDate = toDateKey(new Date());
+  renderFood();
+}
+
+function openMealModal() {
+  document.getElementById('meal-date').value = state.foodDate || toDateKey(new Date());
+  document.getElementById('meal-type').value = 'breakfast';
+  document.getElementById('meal-name').value = '';
+  document.getElementById('meal-calories').value = '';
+  document.getElementById('meal-protein').value = '';
+  document.getElementById('meal-carbs').value = '';
+  document.getElementById('meal-fat').value = '';
+  document.getElementById('meal-notes').value = '';
+  document.getElementById('modal-meal').classList.add('active');
+}
+
+function saveMeal() {
+  const date = document.getElementById('meal-date').value || toDateKey(new Date());
+  const type = document.getElementById('meal-type').value;
+  const name = document.getElementById('meal-name').value.trim();
+  const calories = parseFloat(document.getElementById('meal-calories').value);
+  const protein = parseFloat(document.getElementById('meal-protein').value);
+  const carbs = parseFloat(document.getElementById('meal-carbs').value);
+  const fat = parseFloat(document.getElementById('meal-fat').value);
+  const notes = document.getElementById('meal-notes').value.trim();
+  if (!name && !isFinite(calories)) { alert('Add at least a name or calories.'); return; }
+  state.personal.food.push({
+    id: 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+    date, type, name,
+    calories: isFinite(calories) ? calories : null,
+    protein: isFinite(protein) ? protein : null,
+    carbs: isFinite(carbs) ? carbs : null,
+    fat: isFinite(fat) ? fat : null,
+    notes,
+  });
+  savePersonal();
+  closeModal('modal-meal');
+  renderFood();
+}
+
+function deleteMeal(id) {
+  if (!confirm('Delete this meal?')) return;
+  state.personal.food = state.personal.food.filter(f => f.id !== id);
+  savePersonal();
+  renderFood();
+}
+
+function renderFood() {
+  const dateLabel = document.getElementById('food-current-date');
+  if (dateLabel) dateLabel.textContent = formatDateLong(fromDateKey(state.foodDate));
+  const meals = state.personal.food.filter(f => f.date === state.foodDate);
+  // Daily summary
+  const totals = meals.reduce((acc, m) => ({
+    cal: acc.cal + (m.calories || 0),
+    p: acc.p + (m.protein || 0),
+    c: acc.c + (m.carbs || 0),
+    f: acc.f + (m.fat || 0),
+  }), { cal: 0, p: 0, c: 0, f: 0 });
+  const summary = document.getElementById('food-summary');
+  summary.innerHTML = `
+    <div style="font-size:0.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Daily Total</div>
+    <div class="macro-grid">
+      <div class="macro-item"><div class="macro-value cal">${totals.cal.toFixed(0)}</div><div class="macro-label">kcal</div></div>
+      <div class="macro-item"><div class="macro-value p">${totals.p.toFixed(0)}g</div><div class="macro-label">Protein</div></div>
+      <div class="macro-item"><div class="macro-value c">${totals.c.toFixed(0)}g</div><div class="macro-label">Carbs</div></div>
+      <div class="macro-item"><div class="macro-value f">${totals.f.toFixed(0)}g</div><div class="macro-label">Fat</div></div>
+    </div>
+  `;
+  // Meal list
+  const list = document.getElementById('food-list');
+  if (meals.length === 0) {
+    list.innerHTML = '<div class="empty-state"><p>No meals logged for this day. Log a meal to start.</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  const order = { breakfast:0, lunch:1, dinner:2, snack:3, other:4 };
+  const sorted = [...meals].sort((a,b) => (order[a.type] ?? 9) - (order[b.type] ?? 9));
+  sorted.forEach(m => {
+    const row = document.createElement('div');
+    row.className = 'meal-row';
+    row.innerHTML = `
+      <span class="badge-tier" style="text-transform:capitalize;">${escapeHtml(m.type || 'other')}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:600;">${escapeHtml(m.name || '—')}</div>
+        <div style="color:var(--text-dim);font-size:0.85rem;">
+          ${m.calories != null ? `<strong style="color:var(--accent);">${m.calories.toFixed(0)} kcal</strong>` : '—'}
+          ${m.protein != null ? ` · P ${m.protein.toFixed(0)}g` : ''}
+          ${m.carbs != null ? ` · C ${m.carbs.toFixed(0)}g` : ''}
+          ${m.fat != null ? ` · F ${m.fat.toFixed(0)}g` : ''}
+          ${m.notes ? ` · ${escapeHtml(m.notes)}` : ''}
+        </div>
+      </div>
+      <button class="btn-icon" onclick="deleteMeal('${m.id}')" style="color:var(--danger);">Remove</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+// ---- Cognitive markers ----
+function openCognitiveModal() {
+  document.getElementById('cog-date').value = toDateKey(new Date());
+  document.getElementById('cog-marker').value = '';
+  document.getElementById('cog-marker-custom').value = '';
+  document.getElementById('cog-score').value = '';
+  document.getElementById('cog-source').value = '';
+  document.getElementById('cog-notes').value = '';
+  document.getElementById('cog-custom-row').style.display = 'none';
+  document.getElementById('modal-cognitive').classList.add('active');
+}
+
+document.addEventListener('change', (e) => {
+  if (e.target && e.target.id === 'cog-marker') {
+    document.getElementById('cog-custom-row').style.display = e.target.value === 'custom' ? '' : 'none';
+  }
+});
+
+function saveCognitive() {
+  const date = document.getElementById('cog-date').value || toDateKey(new Date());
+  const markerVal = document.getElementById('cog-marker').value;
+  const customName = document.getElementById('cog-marker-custom').value.trim();
+  const marker = markerVal === 'custom' ? (customName || 'Custom') : markerVal;
+  const score = document.getElementById('cog-score').value.trim();
+  const sourceUrl = document.getElementById('cog-source').value.trim();
+  const notes = document.getElementById('cog-notes').value.trim();
+  if (!marker) { alert('Pick or enter a marker.'); return; }
+  if (!score && !notes) { alert('Add a score or some notes.'); return; }
+  state.personal.cognitive.push({
+    id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+    date, marker, score, source: sourceUrl, notes,
+  });
+  state.personal.cognitive.sort((a, b) => b.date.localeCompare(a.date));
+  savePersonal();
+  closeModal('modal-cognitive');
+  renderCognitive();
+}
+
+function deleteCognitive(id) {
+  if (!confirm('Delete this entry?')) return;
+  state.personal.cognitive = state.personal.cognitive.filter(c => c.id !== id);
+  savePersonal();
+  renderCognitive();
+}
+
+function renderCognitive() {
+  const list = document.getElementById('cognitive-list');
+  if (state.personal.cognitive.length === 0) {
+    list.innerHTML = '<div class="empty-state"><p>No cognitive entries yet. Take an assessment from the links above and log your score below.</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  state.personal.cognitive.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'cog-entry';
+    const markerLabel = ({
+      'reaction-time':'Reaction Time',
+      'working-memory':'Working Memory',
+      'visual-memory':'Visual Memory',
+      'sequence-memory':'Sequence Memory',
+      'number-memory':'Number Memory',
+      'verbal-memory':'Verbal Memory',
+      'lpi':'Lumosity LPI',
+      'cbs':'Cambridge Brain Sciences',
+      'cognifit':'CogniFit',
+      'moca':'MoCA',
+    })[c.marker] || c.marker;
+    div.innerHTML = `
+      <div class="cog-entry-top">
+        <div>
+          <span class="cog-entry-marker">${escapeHtml(markerLabel)}</span>
+          ${c.score ? ` <span class="cog-entry-score">${escapeHtml(c.score)}</span>` : ''}
+        </div>
+        <div>
+          <span class="cog-entry-date">${new Date(c.date).toLocaleDateString()}</span>
+          <button class="btn-icon" onclick="deleteCognitive('${c.id}')" style="color:var(--danger);margin-left:0.5rem;">Remove</button>
+        </div>
+      </div>
+      ${c.source ? `<div style="font-size:0.78rem;color:var(--text-dim);margin-top:0.25rem;">Source: ${escapeHtml(c.source)}</div>` : ''}
+      ${c.notes ? `<div class="cog-entry-notes">${escapeHtml(c.notes)}</div>` : ''}
+    `;
+    list.appendChild(div);
+  });
 }
 
 // ============================================================
