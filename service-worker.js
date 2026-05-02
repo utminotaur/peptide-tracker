@@ -1,7 +1,7 @@
 // Peptide Tracker — Service Worker
 // Stale-while-revalidate caching so the app loads instantly and works offline.
 
-const CACHE_NAME = 'peptide-tracker-v2';
+const CACHE_NAME = 'peptide-tracker-v3';
 const PRECACHE = [
   './',
   './index.html',

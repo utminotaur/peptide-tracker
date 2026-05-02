@@ -917,9 +917,9 @@
   /* COLOR PICKER & ITEM COLORS */
   .color-picker {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     gap: 5px;
-    max-width: 320px;
+    max-width: 380px;
   }
   .color-swatch {
     width: 100%;
@@ -1059,6 +1059,39 @@
   }
   .clock-time-input {
     font-family: inherit;
+  }
+  /* Inventory item type toggle */
+  .kind-toggle {
+    display: inline-flex;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+    width: 100%;
+  }
+  .kind-toggle button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    padding: 0.55rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .kind-toggle button.active {
+    background: var(--peptide);
+    color: #1a0a3a;
+    font-weight: 700;
+  }
+  .badge-supplement-card {
+    background: linear-gradient(135deg, var(--supplement-dim), var(--bg-card));
+    border: 1px solid var(--supplement);
+  }
+  .vial-card.supplement-card {
+    background: linear-gradient(135deg, rgba(96,165,250,0.08), var(--bg-card));
   }
   /* Schedule section in vial modal */
   .schedule-toggle {
@@ -1291,8 +1324,11 @@
   <!-- INVENTORY & CALCULATOR -->
   <section class="panel" id="panel-inventory">
     <div class="panel-header">
-      <h2>Peptide Inventory &amp; Calculator</h2>
-      <button class="btn-primary" onclick="openVialModal()">+ Add Vial</button>
+      <h2>Inventory &amp; Calculator</h2>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="openVialModal(null, 'peptide')">+ Add Peptide Vial</button>
+        <button class="btn-secondary" onclick="openVialModal(null, 'supplement')" style="border-color:var(--supplement);color:var(--supplement);">+ Add Supplement</button>
+      </div>
     </div>
 
     <div class="calc-card collapsed" id="calc-card">
@@ -1385,7 +1421,7 @@
       </div><!-- /.calc-body -->
     </div>
 
-    <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:0.75rem;">Vials</h3>
+    <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:0.75rem;">My Inventory</h3>
     <div id="vials-list"></div>
   </section>
 
@@ -1415,16 +1451,75 @@
       <button class="modal-close" onclick="closeModal('modal-vial')">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-field" style="margin-bottom:0.5rem;">
-        <label>Peptide(s) in Vial</label>
-        <div style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.6rem;">For blends (e.g., BPC-157 / TB-500), add each peptide and its mg amount separately.</div>
-        <div id="vial-components-list"></div>
-        <button type="button" class="comp-add-btn" onclick="addComponentRow()">+ Add Another Peptide (Blend)</button>
-      </div>
-      <div class="form-grid full" style="margin-top:1rem;">
+      <div class="form-grid full" style="margin-bottom:0.75rem;">
         <div class="form-field">
-          <label>BAC Water Added (ml)</label>
-          <input type="number" inputmode="decimal" step="0.1" id="vial-bac" placeholder="0 if not yet reconstituted" />
+          <label>Item Type</label>
+          <div class="kind-toggle" id="vial-kind-toggle">
+            <button type="button" class="active" data-kind="peptide" onclick="setVialKind('peptide')">Peptide Vial</button>
+            <button type="button" data-kind="supplement" onclick="setVialKind('supplement')">Supplement</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PEPTIDE-SPECIFIC FIELDS -->
+      <div id="vial-peptide-fields">
+        <div class="form-field" style="margin-bottom:0.5rem;">
+          <label>Peptide(s) in Vial</label>
+          <div style="color:var(--text-dim);font-size:0.8rem;margin-bottom:0.6rem;">For blends (e.g., BPC-157 / TB-500), add each peptide and its mg amount separately.</div>
+          <div id="vial-components-list"></div>
+          <button type="button" class="comp-add-btn" onclick="addComponentRow()">+ Add Another Peptide (Blend)</button>
+        </div>
+        <div class="form-grid full" style="margin-top:1rem;">
+          <div class="form-field">
+            <label>BAC Water Added (ml)</label>
+            <input type="number" inputmode="decimal" step="0.1" id="vial-bac" placeholder="0 if not yet reconstituted" />
+          </div>
+        </div>
+      </div>
+
+      <!-- SUPPLEMENT-SPECIFIC FIELDS -->
+      <div id="vial-supplement-fields" style="display:none;">
+        <div class="form-grid full">
+          <div class="form-field">
+            <label>Supplement</label>
+            <select id="vial-supplement-select" onchange="onSupplementSelectChange()">
+              <option value="">— Custom name —</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid full" id="vial-supplement-custom-row">
+          <div class="form-field">
+            <label>Custom Supplement Name</label>
+            <input type="text" id="vial-supplement-name" placeholder="e.g., My multivitamin" />
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Form</label>
+            <select id="vial-supplement-form">
+              <option value="capsule">Capsule</option>
+              <option value="tablet">Tablet</option>
+              <option value="softgel">Softgel</option>
+              <option value="powder">Powder (scoop)</option>
+              <option value="liquid">Liquid (drops/ml)</option>
+              <option value="gummy">Gummy</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Dose per Serving</label>
+            <input type="text" id="vial-supplement-serving-dose" placeholder="e.g., 5000 IU or 500 mg" />
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Servings per Container</label>
+            <input type="number" inputmode="numeric" id="vial-supplement-servings-total" placeholder="e.g., 90" />
+          </div>
+          <div class="form-field">
+            <label>Servings Remaining</label>
+            <input type="number" inputmode="numeric" id="vial-supplement-servings-remaining" placeholder="default = total" />
+          </div>
         </div>
       </div>
       <div class="form-grid">
@@ -1460,7 +1555,7 @@
       </div>
       <div id="vial-schedule-fields" style="display:none;">
         <div class="form-grid">
-          <div class="form-field">
+          <div class="form-field schedule-peptide-only">
             <label>Component (for blends)</label>
             <select id="vial-schedule-component"></select>
           </div>
@@ -1471,6 +1566,7 @@
               <select id="vial-schedule-dose-unit">
                 <option value="mcg">mcg</option>
                 <option value="mg">mg</option>
+                <option value="serving">serving(s)</option>
               </select>
             </div>
           </div>
@@ -1567,6 +1663,7 @@
             <select id="stack-dose-unit">
               <option value="mcg">mcg</option>
               <option value="mg">mg</option>
+              <option value="serving">serving(s)</option>
             </select>
           </div>
         </div>
@@ -2777,10 +2874,20 @@ const PROTOCOLS = [
 // COLOR PALETTE
 // ============================================================
 const PALETTE = [
-  '#4ade80', '#a78bfa', '#60a5fa', '#f87171',
-  '#fbbf24', '#f472b6', '#34d399', '#fb923c',
-  '#818cf8', '#2dd4bf', '#c084fc', '#facc15',
-  '#fb7185', '#22d3ee', '#84cc16', '#e879f9',
+  // Greens
+  '#4ade80', '#22c55e', '#16a34a', '#84cc16', '#a3e635', '#10b981',
+  // Cyans / teals
+  '#34d399', '#2dd4bf', '#22d3ee', '#06b6d4', '#14b8a6', '#0ea5e9',
+  // Blues
+  '#60a5fa', '#3b82f6', '#818cf8', '#6366f1',
+  // Purples / violets
+  '#a78bfa', '#8b5cf6', '#c084fc', '#d946ef', '#7c3aed',
+  // Pinks / magentas
+  '#f472b6', '#ec4899', '#fb7185', '#e879f9', '#db2777',
+  // Reds / oranges
+  '#f87171', '#ef4444', '#fb923c', '#f97316', '#ea580c',
+  // Yellows / golds
+  '#fbbf24', '#facc15', '#eab308', '#fde047',
 ];
 function nextColor() {
   const used = new Set();
@@ -2879,18 +2986,38 @@ function migrateStackItem(s) {
   return s;
 }
 function migrateVial(v) {
-  if (!v.components || !Array.isArray(v.components) || v.components.length === 0) {
-    v.components = [{
-      peptideId: v.peptideId || null,
-      customName: v.customName || '',
-      mgAmount: v.mgPerVial || 0,
-    }];
+  if (!v.kind) v.kind = 'peptide';
+  if (v.kind === 'peptide') {
+    if (!v.components || !Array.isArray(v.components) || v.components.length === 0) {
+      v.components = [{
+        peptideId: v.peptideId || null,
+        customName: v.customName || '',
+        mgAmount: v.mgPerVial || 0,
+      }];
+    }
   }
   if (v.scheduleEnabled == null) v.scheduleEnabled = false;
   // Legacy: scheduleDose was always in mcg. Add display unit fields.
   if (v.scheduleDoseUnit == null) v.scheduleDoseUnit = 'mcg';
   if (v.scheduleDoseAmount == null && v.scheduleDose != null) v.scheduleDoseAmount = v.scheduleDose;
   return v;
+}
+
+// Helpers for supplement-kind items
+function isSupplementVial(v) { return v && v.kind === 'supplement'; }
+function supplementFormSingular(form) {
+  return ({ capsule:'capsule', tablet:'tablet', softgel:'softgel', powder:'scoop', liquid:'dose', gummy:'gummy', other:'serving' })[form] || 'serving';
+}
+function supplementFormPlural(form, n) {
+  const s = supplementFormSingular(form);
+  if (n === 1) return s;
+  // simple pluralization
+  if (s === 'softgel') return 'softgels';
+  if (s.endsWith('gel') || s.endsWith('let') || s.endsWith('le') || s.endsWith('op') || s.endsWith('y') || s.endsWith('ng')) {
+    if (s === 'gummy') return 'gummies';
+    return s + 's';
+  }
+  return s + 's';
 }
 
 // ============================================================
@@ -2935,6 +3062,43 @@ function getScheduledItems() {
   state.vials.forEach(v => {
     if (!v.scheduleEnabled) return;
     if (!v.scheduleFrequency || !v.scheduleTime) return;
+    if (isSupplementVial(v)) {
+      // Supplement schedule item
+      const doseAmount = v.scheduleDoseAmount != null ? v.scheduleDoseAmount : 1;
+      const doseUnit = v.scheduleDoseUnit || 'serving';
+      const formLabel = supplementFormSingular(v.supplementForm);
+      let doseStr;
+      if (doseUnit === 'serving') {
+        const n = parseFloat(doseAmount) || 0;
+        doseStr = `${n} ${n === 1 ? formLabel : supplementFormPlural(v.supplementForm, 2)}` +
+          (v.supplementServingDose ? ` · ${v.supplementServingDose} each` : '');
+      } else {
+        doseStr = formatDoseDisplay(doseAmount, doseUnit);
+      }
+      items.push({
+        id: 'vial::' + v.id,
+        kind: 'vial-supplement',
+        name: vialDisplayName(v),
+        type: 'supplement',
+        dose: doseStr,
+        doseAmount,
+        doseUnit,
+        doseMcg: 0,
+        units: null,
+        frequency: v.scheduleFrequency,
+        time: v.scheduleTime,
+        clockTime: v.scheduleClockTime || '',
+        customDays: v.scheduleCustomDays || [],
+        route: 'oral',
+        notes: v.notes,
+        color: v.color || PALETTE[0],
+        isBlend: false,
+        vialRef: v,
+        source: v,
+      });
+      return;
+    }
+    // Peptide vial schedule item
     const compIdx = v.scheduleComponentIdx || 0;
     const comp = (v.components || [])[compIdx];
     const compName = comp ? componentName(comp) : vialDisplayName(v);
@@ -3052,11 +3216,12 @@ function resolveStackCompound(compoundId) {
     if (!v) return null;
     return {
       name: vialDisplayName(v),
-      type: 'peptide',
+      type: isSupplementVial(v) ? 'supplement' : 'peptide',
       isVial: true,
+      isSupplement: isSupplementVial(v),
       vial: v,
       color: v.color || PALETTE[1],
-      isBlend: (v.components || []).length > 1,
+      isBlend: !isSupplementVial(v) && (v.components || []).length > 1,
     };
   }
   const c = compoundById(compoundId);
@@ -3257,12 +3422,15 @@ function openAddStackModal(preselectId) {
   if (state.vials && state.vials.length > 0) {
     const sortedVials = [...state.vials].sort((a, b) => vialDisplayName(a).localeCompare(vialDisplayName(b)));
     const og0 = document.createElement('optgroup');
-    og0.label = 'My Inventory (Vials)';
+    og0.label = 'My Inventory';
     sortedVials.forEach(v => {
       const o = document.createElement('option');
       o.value = 'vial::' + v.id;
-      const isBlend = (v.components || []).length > 1;
-      o.textContent = vialDisplayName(v) + (isBlend ? '  [BLEND]' : '');
+      let suffix = '';
+      if (isSupplementVial(v)) suffix = '  [SUPPLEMENT]';
+      else if ((v.components || []).length > 1) suffix = '  [BLEND]';
+      else suffix = '  [VIAL]';
+      o.textContent = vialDisplayName(v) + suffix;
       og0.appendChild(o);
     });
     sel.appendChild(og0);
@@ -3547,13 +3715,21 @@ function toggleTaken(stackId, slot) {
   let doseMcg = 0;
   let componentIdx = 0;
 
+  let supplementServingsToDecrement = 0;
   if (stackId && stackId.startsWith('vial::')) {
     // Vial self-schedule item: id is "vial::<vialId>"
     const vialId = stackId.substring(6);
     vial = state.vials.find(v => v.id === vialId) || null;
     if (vial) {
-      doseMcg = vial.scheduleDose || 0;
-      componentIdx = vial.scheduleComponentIdx || 0;
+      if (isSupplementVial(vial)) {
+        // Supplement scheduled item — decrement servings, not volume
+        const unit = vial.scheduleDoseUnit || 'serving';
+        const amt = parseFloat(vial.scheduleDoseAmount);
+        supplementServingsToDecrement = (unit === 'serving' && isFinite(amt)) ? amt : 1;
+      } else {
+        doseMcg = vial.scheduleDose || 0;
+        componentIdx = vial.scheduleComponentIdx || 0;
+      }
     }
   } else {
     // Possibly a stack item that references a vial
@@ -3561,30 +3737,60 @@ function toggleTaken(stackId, slot) {
     if (stackItem && isVialCompoundId(stackItem.compoundId)) {
       const vialId = vialIdFromCompoundId(stackItem.compoundId);
       vial = state.vials.find(v => v.id === vialId) || null;
-      // Use structured doseAmount/doseUnit if present; fall back to parsing legacy `dose` string.
-      if (stackItem.doseAmount != null) {
-        doseMcg = doseToMcg(stackItem.doseAmount, stackItem.doseUnit || 'mcg');
-      } else if (stackItem.dose) {
-        const m = String(stackItem.dose).match(/(-?\d+(?:\.\d+)?)/);
-        if (m) {
-          let n = parseFloat(m[1]);
-          if (/\bmg\b/i.test(stackItem.dose) && !/\bmcg\b/i.test(stackItem.dose)) n *= 1000;
-          doseMcg = n;
+      if (vial && isSupplementVial(vial)) {
+        // Supplement vial referenced by a stack item — decrement servings
+        const unit = stackItem.doseUnit || 'serving';
+        const amt = parseFloat(stackItem.doseAmount);
+        supplementServingsToDecrement = (unit === 'serving' && isFinite(amt)) ? amt : 1;
+      } else {
+        // Peptide vial — use structured doseAmount/doseUnit if present; fall back to parsing legacy `dose` string.
+        if (stackItem.doseAmount != null) {
+          doseMcg = doseToMcg(stackItem.doseAmount, stackItem.doseUnit || 'mcg');
+        } else if (stackItem.dose) {
+          const m = String(stackItem.dose).match(/(-?\d+(?:\.\d+)?)/);
+          if (m) {
+            let n = parseFloat(m[1]);
+            if (/\bmg\b/i.test(stackItem.dose) && !/\bmcg\b/i.test(stackItem.dose)) n *= 1000;
+            doseMcg = n;
+          }
         }
+        componentIdx = 0;
       }
-      componentIdx = 0;
     }
   }
 
   if (isUnchecking) {
     const removed = arr.splice(idx, 1)[0];
-    if (vial && removed && removed.volMl) {
-      if (vial.remainingMl == null) vial.remainingMl = vial.bacWaterMl;
-      vial.remainingMl = Math.min(vial.bacWaterMl, vial.remainingMl + removed.volMl);
+    if (vial && removed) {
+      if (isSupplementVial(vial) && removed.servings) {
+        // Restore supplement servings
+        const total = parseFloat(vial.supplementServingsTotal);
+        let cur = parseFloat(vial.supplementServingsRemaining);
+        if (!isFinite(cur)) cur = 0;
+        let restored = cur + removed.servings;
+        if (isFinite(total)) restored = Math.min(total, restored);
+        vial.supplementServingsRemaining = restored;
+      } else if (removed.volMl) {
+        // Restore peptide volume
+        if (vial.remainingMl == null) vial.remainingMl = vial.bacWaterMl;
+        vial.remainingMl = Math.min(vial.bacWaterMl, vial.remainingMl + removed.volMl);
+      }
     }
   } else {
     let volMl = 0;
-    if (vial && vial.bacWaterMl > 0 && doseMcg > 0) {
+    let servingsLogged = 0;
+    if (vial && isSupplementVial(vial) && supplementServingsToDecrement > 0) {
+      // Decrement supplement servings
+      let cur = parseFloat(vial.supplementServingsRemaining);
+      if (!isFinite(cur)) cur = parseFloat(vial.supplementServingsTotal) || 0;
+      if (supplementServingsToDecrement > cur) {
+        if (!confirm(`Logging ${supplementServingsToDecrement} servings exceeds the ${cur} remaining. Mark as taken anyway?`)) return;
+        vial.supplementServingsRemaining = 0;
+      } else {
+        vial.supplementServingsRemaining = cur - supplementServingsToDecrement;
+      }
+      servingsLogged = supplementServingsToDecrement;
+    } else if (vial && !isSupplementVial(vial) && vial.bacWaterMl > 0 && doseMcg > 0) {
       const comp = (vial.components || [])[componentIdx];
       if (comp && comp.mgAmount > 0) {
         const concMcgPerMl = comp.mgAmount * 1000 / vial.bacWaterMl;
@@ -3598,7 +3804,7 @@ function toggleTaken(stackId, slot) {
         }
       }
     }
-    arr.push({ stackItemId: stackId, slot: slot, takenAt: new Date().toISOString(), volMl });
+    arr.push({ stackItemId: stackId, slot: slot, takenAt: new Date().toISOString(), volMl, servings: servingsLogged });
   }
   saveState();
   renderTracker();
@@ -3914,8 +4120,11 @@ function renderInventory() {
   list.innerHTML = '';
   if (state.vials.length === 0) {
     list.innerHTML = `<div class="empty-state">
-      <p>No vials in inventory yet. Add a peptide vial to start tracking and using the calculator.</p>
-      <button class="btn-primary" onclick="openVialModal()">+ Add Your First Vial</button>
+      <p>Your inventory is empty. Add a peptide vial or a supplement to start tracking.</p>
+      <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="openVialModal(null,'peptide')">+ Add Peptide Vial</button>
+        <button class="btn-secondary" onclick="openVialModal(null,'supplement')" style="border-color:var(--supplement);color:var(--supplement);">+ Add Supplement</button>
+      </div>
     </div>`;
   } else {
     // sort: in-use first, then unreconstituted, then empty
@@ -3931,6 +4140,13 @@ function renderInventory() {
 }
 
 function vialDisplayName(v) {
+  if (isSupplementVial(v)) {
+    if (v.supplementId) {
+      const lib = compoundById(v.supplementId);
+      if (lib) return lib.name;
+    }
+    return v.supplementName || 'Unnamed supplement';
+  }
   if (!v.components || v.components.length === 0) return 'Unnamed peptide';
   if (v.components.length === 1) {
     return componentName(v.components[0]);
@@ -3957,6 +4173,15 @@ function vialTotalMg(v) {
 }
 
 function vialStatus(v) {
+  if (isSupplementVial(v)) {
+    const total = parseFloat(v.supplementServingsTotal) || 0;
+    const remaining = parseFloat(v.supplementServingsRemaining);
+    if (!isFinite(remaining)) return 'fresh';
+    if (remaining <= 0) return 'empty';
+    if (total > 0 && remaining <= total * 0.2) return 'low';
+    if (total > 0 && remaining < total) return 'in-use';
+    return 'fresh';
+  }
   if (!v.bacWaterMl || v.bacWaterMl <= 0) return 'unreconstituted';
   if (v.remainingMl == null) return 'fresh';
   if (v.remainingMl <= 0) return 'empty';
@@ -3969,7 +4194,101 @@ function vialStatusLabel(s) {
   return ({ 'fresh':'Fresh', 'in-use':'In Use', 'low':'Low', 'empty':'Empty', 'unreconstituted':'Not Reconstituted' })[s] || s;
 }
 
+function buildSupplementCard(v) {
+  const card = document.createElement('div');
+  card.className = 'vial-card supplement-card';
+  const status = vialStatus(v);
+  const total = v.supplementServingsTotal != null ? parseInt(v.supplementServingsTotal, 10) : null;
+  const remaining = v.supplementServingsRemaining != null ? parseInt(v.supplementServingsRemaining, 10) : null;
+  const pct = (total && remaining != null && total > 0) ? Math.max(0, (remaining / total) * 100) : 0;
+
+  const expStr = v.expiresDate ? new Date(v.expiresDate).toLocaleDateString() : null;
+  const isExpired = v.expiresDate && new Date(v.expiresDate) < new Date();
+  const formLabel = supplementFormSingular(v.supplementForm);
+  const formPluralLabel = supplementFormPlural(v.supplementForm, 2);
+
+  const scheduleBadge = v.scheduleEnabled
+    ? `<span class="vial-status in-use" title="Scheduled in tracker">📅 Scheduled</span>`
+    : '';
+
+  let progressBlock = '';
+  if (total && total > 0 && remaining != null) {
+    progressBlock = `<div class="vial-progress"><div class="vial-progress-fill" style="width:${pct}%"></div></div>`;
+  }
+
+  let drawBlock = '';
+  if (remaining != null && remaining > 0) {
+    drawBlock = `
+      <div class="draw-row">
+        <input type="number" inputmode="numeric" step="1" id="draw-${v.id}" placeholder="${formLabel}s taken (default 1)" />
+        <button class="btn-small" onclick="logSupplementServings('${v.id}')">Log Servings</button>
+      </div>
+    `;
+  }
+
+  card.innerHTML = `
+    <div class="vial-top">
+      <div style="display:flex;gap:0.6rem;align-items:flex-start;flex:1;">
+        <div class="color-stripe" style="background:${v.color || PALETTE[0]};min-height:24px;"></div>
+        <div class="vial-name">
+          <span class="badge badge-supplement">supplement</span>
+          ${escapeHtml(vialDisplayName(v))}
+          <span class="vial-status ${status}">${vialStatusLabel(status)}</span>
+          ${isExpired ? '<span class="vial-status empty">Expired</span>' : ''}
+          ${scheduleBadge}
+        </div>
+      </div>
+      <div class="vial-actions">
+        <button class="btn-small" onclick="openVialModal('${v.id}')">Edit</button>
+        <button class="btn-small danger" onclick="deleteVial('${v.id}')">Delete</button>
+      </div>
+    </div>
+    <div class="vial-stats">
+      <div class="vial-stat">
+        <div class="vial-stat-label">Form</div>
+        <div class="vial-stat-value" style="text-transform:capitalize;">${escapeHtml(v.supplementForm || 'capsule')}</div>
+      </div>
+      ${v.supplementServingDose ? `<div class="vial-stat">
+        <div class="vial-stat-label">Per ${formLabel}</div>
+        <div class="vial-stat-value">${escapeHtml(v.supplementServingDose)}</div>
+      </div>` : ''}
+      <div class="vial-stat">
+        <div class="vial-stat-label">Total</div>
+        <div class="vial-stat-value">${total != null ? total + ' ' + (total === 1 ? formLabel : formPluralLabel) : '—'}</div>
+      </div>
+      <div class="vial-stat">
+        <div class="vial-stat-label">Remaining</div>
+        <div class="vial-stat-value">${remaining != null ? remaining + ' ' + (remaining === 1 ? formLabel : formPluralLabel) : '—'}</div>
+      </div>
+      ${expStr ? `<div class="vial-stat"><div class="vial-stat-label">Expires</div><div class="vial-stat-value">${expStr}</div></div>` : ''}
+    </div>
+    ${progressBlock}
+    ${v.notes ? `<div class="vial-notes">${escapeHtml(v.notes)}</div>` : ''}
+    ${drawBlock}
+  `;
+  return card;
+}
+
+function logSupplementServings(vialId) {
+  const v = state.vials.find(x => x.id === vialId);
+  if (!v || !isSupplementVial(v)) return;
+  const input = document.getElementById('draw-' + vialId);
+  let n = parseInt(input.value, 10);
+  if (!isFinite(n) || n <= 0) n = 1;
+  let remaining = parseInt(v.supplementServingsRemaining, 10) || 0;
+  if (n > remaining) {
+    if (!confirm(`Logging ${n} servings exceeds remaining ${remaining}. Continue and set remaining to 0?`)) return;
+    v.supplementServingsRemaining = 0;
+  } else {
+    v.supplementServingsRemaining = remaining - n;
+  }
+  saveState();
+  if (input) input.value = '';
+  renderInventory();
+}
+
 function buildVialCard(v) {
+  if (isSupplementVial(v)) return buildSupplementCard(v);
   const card = document.createElement('div');
   card.className = 'vial-card';
   const status = vialStatus(v);
@@ -4081,18 +4400,72 @@ function buildVialCard(v) {
   return card;
 }
 
-function openVialModal(vialId) {
+function setVialKind(kind) {
+  state.editingVialKind = kind;
+  document.querySelectorAll('#vial-kind-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.kind === kind);
+  });
+  document.getElementById('vial-peptide-fields').style.display = kind === 'peptide' ? '' : 'none';
+  document.getElementById('vial-supplement-fields').style.display = kind === 'supplement' ? '' : 'none';
+  // Hide blend component selector in schedule for supplements
+  document.querySelectorAll('.schedule-peptide-only').forEach(el => {
+    el.style.display = kind === 'supplement' ? 'none' : '';
+  });
+  // Update modal title
+  const titleEl = document.getElementById('vial-modal-title');
+  const isEdit = !!state.editingVialId;
+  if (titleEl) {
+    titleEl.textContent = (isEdit ? 'Edit ' : 'Add ') + (kind === 'supplement' ? 'Supplement' : 'Peptide Vial');
+  }
+  // Default schedule unit when switching kinds
+  const unitSel = document.getElementById('vial-schedule-dose-unit');
+  if (unitSel && !isEdit) {
+    unitSel.value = kind === 'supplement' ? 'serving' : 'mcg';
+  }
+}
+
+function populateSupplementSelect(currentId) {
+  const sel = document.getElementById('vial-supplement-select');
+  if (!sel) return;
+  const supplements = LIBRARY.filter(c => c.type === 'supplement').sort((a,b) => a.name.localeCompare(b.name));
+  sel.innerHTML = '<option value="">— Custom name —</option>' +
+    supplements.map(s => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
+  if (currentId) sel.value = currentId;
+  onSupplementSelectChange();
+}
+
+function onSupplementSelectChange() {
+  const sel = document.getElementById('vial-supplement-select');
+  const customRow = document.getElementById('vial-supplement-custom-row');
+  if (!sel || !customRow) return;
+  customRow.style.display = sel.value ? 'none' : '';
+}
+
+function openVialModal(vialId, defaultKind) {
   state.editingVialId = vialId || null;
   // Reset components list
   const compList = document.getElementById('vial-components-list');
   compList.innerHTML = '';
+  populateSupplementSelect(null);
 
   if (vialId) {
     const v = state.vials.find(x => x.id === vialId);
     if (!v) return;
-    document.getElementById('vial-modal-title').textContent = 'Edit Vial';
-    (v.components || []).forEach(c => addComponentRow(c));
-    if (compList.children.length === 0) addComponentRow();
+    const kind = v.kind || 'peptide';
+    setVialKind(kind);
+    document.getElementById('vial-modal-title').textContent = (kind === 'supplement' ? 'Edit Supplement' : 'Edit Peptide Vial');
+    if (kind === 'peptide') {
+      (v.components || []).forEach(c => addComponentRow(c));
+      if (compList.children.length === 0) addComponentRow();
+    } else {
+      // populate supplement fields
+      populateSupplementSelect(v.supplementId || '');
+      document.getElementById('vial-supplement-name').value = v.supplementName || '';
+      document.getElementById('vial-supplement-form').value = v.supplementForm || 'capsule';
+      document.getElementById('vial-supplement-serving-dose').value = v.supplementServingDose || '';
+      document.getElementById('vial-supplement-servings-total').value = v.supplementServingsTotal != null ? v.supplementServingsTotal : '';
+      document.getElementById('vial-supplement-servings-remaining').value = v.supplementServingsRemaining != null ? v.supplementServingsRemaining : '';
+    }
     document.getElementById('vial-bac').value = v.bacWaterMl || '';
     document.getElementById('vial-recon-date').value = v.reconDate || '';
     document.getElementById('vial-expires').value = v.expiresDate || '';
@@ -4111,9 +4484,18 @@ function openVialModal(vialId) {
     populateScheduleComponentSelect(v.components || [], v.scheduleComponentIdx || 0);
     buildColorPicker('vial-color-picker', v.color || nextColor());
   } else {
-    document.getElementById('vial-modal-title').textContent = 'Add Vial';
-    addComponentRow();
+    const kind = defaultKind || 'peptide';
+    setVialKind(kind);
+    document.getElementById('vial-modal-title').textContent = (kind === 'supplement' ? 'Add Supplement' : 'Add Peptide Vial');
+    if (kind === 'peptide') {
+      addComponentRow();
+    }
     document.getElementById('vial-bac').value = '';
+    document.getElementById('vial-supplement-name').value = '';
+    document.getElementById('vial-supplement-form').value = 'capsule';
+    document.getElementById('vial-supplement-serving-dose').value = '';
+    document.getElementById('vial-supplement-servings-total').value = '';
+    document.getElementById('vial-supplement-servings-remaining').value = '';
     document.getElementById('vial-recon-date').value = toDateKey(new Date());
     document.getElementById('vial-expires').value = '';
     document.getElementById('vial-lot').value = '';
@@ -4122,7 +4504,7 @@ function openVialModal(vialId) {
     document.getElementById('vial-schedule-enabled').checked = false;
     document.getElementById('vial-schedule-fields').style.display = 'none';
     document.getElementById('vial-schedule-dose').value = '';
-    document.getElementById('vial-schedule-dose-unit').value = 'mcg';
+    document.getElementById('vial-schedule-dose-unit').value = kind === 'supplement' ? 'serving' : 'mcg';
     document.getElementById('vial-schedule-frequency').value = 'daily';
     document.getElementById('vial-schedule-time').value = 'morning';
     document.getElementById('vial-schedule-clock').value = '';
@@ -4204,20 +4586,44 @@ function removeComponentRow(btn) {
 }
 
 function saveVial() {
-  // Collect components
-  const rows = document.querySelectorAll('#vial-components-list .comp-row');
-  const components = [];
-  for (const row of rows) {
-    const peptideId = row.querySelector('.comp-peptide').value || null;
-    const customName = row.querySelector('.comp-custom-name').value.trim();
-    const mgAmount = parseFloat(row.querySelector('.comp-mg').value);
-    if (!peptideId && !customName) { alert('Each component needs a peptide or a custom name.'); return; }
-    if (!mgAmount || mgAmount <= 0) { alert('Each component needs an mg amount > 0.'); return; }
-    components.push({ peptideId, customName, mgAmount });
-  }
-  if (components.length === 0) { alert('Add at least one component.'); return; }
+  const kind = state.editingVialKind || 'peptide';
+  let components = [];
+  let bacWaterMl = 0;
+  let supplementId = null, supplementName = '', supplementForm = '', supplementServingDose = '';
+  let supplementServingsTotal = null, supplementServingsRemaining = null;
 
-  const bacWaterMl = parseFloat(document.getElementById('vial-bac').value) || 0;
+  if (kind === 'peptide') {
+    // Collect components
+    const rows = document.querySelectorAll('#vial-components-list .comp-row');
+    for (const row of rows) {
+      const peptideId = row.querySelector('.comp-peptide').value || null;
+      const customName = row.querySelector('.comp-custom-name').value.trim();
+      const mgAmount = parseFloat(row.querySelector('.comp-mg').value);
+      if (!peptideId && !customName) { alert('Each component needs a peptide or a custom name.'); return; }
+      if (!mgAmount || mgAmount <= 0) { alert('Each component needs an mg amount > 0.'); return; }
+      components.push({ peptideId, customName, mgAmount });
+    }
+    if (components.length === 0) { alert('Add at least one component.'); return; }
+    bacWaterMl = parseFloat(document.getElementById('vial-bac').value) || 0;
+  } else {
+    // Supplement
+    supplementId = document.getElementById('vial-supplement-select').value || null;
+    supplementName = document.getElementById('vial-supplement-name').value.trim();
+    supplementForm = document.getElementById('vial-supplement-form').value;
+    supplementServingDose = document.getElementById('vial-supplement-serving-dose').value.trim();
+    const totalRaw = document.getElementById('vial-supplement-servings-total').value;
+    const remRaw = document.getElementById('vial-supplement-servings-remaining').value;
+    supplementServingsTotal = totalRaw === '' ? null : parseInt(totalRaw, 10);
+    supplementServingsRemaining = remRaw === '' ? null : parseInt(remRaw, 10);
+    if (!supplementId && !supplementName) { alert('Pick a supplement from the list or enter a custom name.'); return; }
+    if (supplementServingsTotal != null && supplementServingsTotal <= 0) { alert('Servings per container must be > 0.'); return; }
+    // Default servings remaining to total when not provided
+    if (supplementServingsRemaining == null && supplementServingsTotal != null) {
+      supplementServingsRemaining = supplementServingsTotal;
+    }
+  }
+  // (kept variable name for downstream compat)
+  void components; void bacWaterMl;
   const reconDate = document.getElementById('vial-recon-date').value || null;
   const expiresDate = document.getElementById('vial-expires').value || null;
   const lot = document.getElementById('vial-lot').value.trim();
@@ -4255,28 +4661,40 @@ function saveVial() {
     scheduleComponentIdx,
   };
 
+  const baseFields = { kind, reconDate, expiresDate, lot, source, notes, color };
+  const peptideFields = kind === 'peptide' ? { components, bacWaterMl } : {};
+  const supplementFields = kind === 'supplement' ? {
+    supplementId, supplementName, supplementForm, supplementServingDose,
+    supplementServingsTotal, supplementServingsRemaining,
+  } : {};
+
   if (state.editingVialId) {
     const v = state.vials.find(x => x.id === state.editingVialId);
     if (v) {
       const wasReconstituted = v.bacWaterMl > 0;
-      Object.assign(v, { components, bacWaterMl, reconDate, expiresDate, lot, source, notes, color }, scheduleData);
-      if (!wasReconstituted && bacWaterMl > 0) {
-        v.remainingMl = bacWaterMl;
-      } else if (bacWaterMl > 0 && (v.remainingMl == null || v.remainingMl > bacWaterMl)) {
-        v.remainingMl = bacWaterMl;
-      } else if (bacWaterMl <= 0) {
-        v.remainingMl = null;
+      Object.assign(v, baseFields, peptideFields, supplementFields, scheduleData);
+      // Manage remainingMl for peptides
+      if (kind === 'peptide') {
+        if (!wasReconstituted && bacWaterMl > 0) {
+          v.remainingMl = bacWaterMl;
+        } else if (bacWaterMl > 0 && (v.remainingMl == null || v.remainingMl > bacWaterMl)) {
+          v.remainingMl = bacWaterMl;
+        } else if (bacWaterMl <= 0) {
+          v.remainingMl = null;
+        }
       }
       // remove legacy fields if present
       delete v.peptideId; delete v.customName; delete v.mgPerVial;
     }
   } else {
-    state.vials.push(Object.assign({
+    const newItem = Object.assign({
       id: 'vial_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
-      components, bacWaterMl, reconDate, expiresDate, lot, source, notes, color,
-      remainingMl: bacWaterMl > 0 ? bacWaterMl : null,
       createdAt: new Date().toISOString(),
-    }, scheduleData));
+    }, baseFields, peptideFields, supplementFields, scheduleData);
+    if (kind === 'peptide') {
+      newItem.remainingMl = bacWaterMl > 0 ? bacWaterMl : null;
+    }
+    state.vials.push(newItem);
   }
   saveState();
   closeModal('modal-vial');
