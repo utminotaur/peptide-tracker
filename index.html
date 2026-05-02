@@ -609,6 +609,46 @@
     margin-bottom: 1.5rem;
     box-shadow: 0 4px 16px rgba(167, 139, 250, 0.1);
   }
+  .calc-card.collapsed { padding: 0.85rem 1.25rem; box-shadow: none; }
+  .calc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    user-select: none;
+    flex-wrap: wrap;
+  }
+  .calc-card.collapsed .calc-header { gap: 0.75rem; }
+  .calc-header-text { flex: 1; min-width: 0; }
+  .calc-card .calc-sub { margin-bottom: 0; }
+  .calc-card.expanded .calc-sub { margin-bottom: 1rem; }
+  .calc-toggle-btn {
+    background: var(--peptide);
+    color: #1a0a3a;
+    border: none;
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .calc-toggle-btn:hover { background: #c4b5fd; transform: translateY(-1px); }
+  .calc-chevron {
+    display: inline-block;
+    font-size: 0.8rem;
+    transition: transform 0.25s;
+    line-height: 1;
+  }
+  .calc-card.expanded .calc-chevron { transform: rotate(180deg); }
+  .calc-body { display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(167, 139, 250, 0.25); }
+  .calc-card.expanded .calc-body { display: block; }
   .calc-card h3 {
     font-size: 1.1rem;
     margin-bottom: 0.25rem;
@@ -1255,9 +1295,18 @@
       <button class="btn-primary" onclick="openVialModal()">+ Add Vial</button>
     </div>
 
-    <div class="calc-card">
-      <h3>Reconstitution &amp; Dose Calculator</h3>
-      <div class="calc-sub">Enter your vial and desired dose to calculate exactly how many units to draw on a U-100 insulin syringe.</div>
+    <div class="calc-card collapsed" id="calc-card">
+      <div class="calc-header" onclick="toggleCalculatorPanel()">
+        <div class="calc-header-text">
+          <h3>Reconstitution &amp; Dose Calculator</h3>
+          <div class="calc-sub">Calculate insulin units to draw based on your vial and target dose.</div>
+        </div>
+        <button type="button" class="calc-toggle-btn" onclick="event.stopPropagation();toggleCalculatorPanel()">
+          <span id="calc-toggle-label">Open Calculator</span>
+          <span class="calc-chevron">▼</span>
+        </button>
+      </div>
+      <div class="calc-body">
 
       <div class="calc-toggle" id="calc-toggle">
         <button class="active" data-mode="vial">From Inventory</button>
@@ -1333,6 +1382,7 @@
         </div>
       </div>
       <div id="calc-message"></div>
+      </div><!-- /.calc-body -->
     </div>
 
     <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:0.75rem;">Vials</h3>
@@ -4282,8 +4332,32 @@ function quickCalcFromVial(vialId) {
   document.getElementById('calc-vial-mode').style.display = '';
   document.getElementById('calc-manual-mode').style.display = 'none';
   document.getElementById('calc-vial-select').value = vialId;
+  // Auto-expand the calculator when invoked from a vial
+  setCalculatorExpanded(true);
   updateCalculator();
   document.querySelector('.calc-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleCalculatorPanel() {
+  const card = document.getElementById('calc-card');
+  if (!card) return;
+  setCalculatorExpanded(!card.classList.contains('expanded'));
+}
+
+function setCalculatorExpanded(expanded) {
+  const card = document.getElementById('calc-card');
+  if (!card) return;
+  card.classList.toggle('expanded', expanded);
+  card.classList.toggle('collapsed', !expanded);
+  const label = document.getElementById('calc-toggle-label');
+  if (label) label.textContent = expanded ? 'Hide Calculator' : 'Open Calculator';
+  try { localStorage.setItem('peptide-tracker:calc-expanded', expanded ? '1' : '0'); } catch(e) {}
+}
+
+function restoreCalculatorState() {
+  let expanded = false;
+  try { expanded = localStorage.getItem('peptide-tracker:calc-expanded') === '1'; } catch(e) {}
+  setCalculatorExpanded(expanded);
 }
 
 // Calculator mode toggle
@@ -4446,6 +4520,7 @@ renderLibrary();
 renderProtocols();
 renderStack();
 renderInventory();
+restoreCalculatorState();
 
 // ============================================================
 // PWA — service worker registration (only when served over http(s))
